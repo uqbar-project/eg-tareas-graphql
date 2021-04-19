@@ -1,0 +1,8 @@
+overwrite: true
+schema: "src/services/graphql/*.graphql"
+documents: null
+generates:
+  src/services/graphql/generated/API.ts:
+    plugins:
+      - "typescript"
+      - "typescript-document-nodes"

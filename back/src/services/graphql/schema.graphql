@@ -1,0 +1,46 @@
+type User {
+    id: ID!,
+    name: String!,
+    email: String!,
+    password: String!,
+    tasks: [Task]
+}
+
+type Task {
+    id: ID!,
+    title: String!,
+    description: String!,
+    priority: Int,
+}
+
+input UserInput {
+    name: String!,
+    email: String!,
+    password: String!,
+}
+
+input TaskInput {
+    title: String!,
+    description: String!,
+    priority: Int,
+}
+
+type Query {
+    getListOfUsers: [User]
+}
+
+type Query {
+    getListOfTasks: [Task]
+}
+
+type Query {
+    getTasksOfUser(userId: ID!): [Task]
+}
+
+type Mutation {
+    createUser(userInput: UserInput): User
+}
+
+type Mutation {
+    createTask(taskInput: TaskInput): Task
+}

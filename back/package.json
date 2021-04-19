@@ -9,6 +9,7 @@
     "build": "tsc -p .",
     "lint": "eslint --ext .ts, .",
     "lint:fix": "eslint --fix --ext .ts .",
+    "codegen": "graphql-codegen --config codegen.yml && eslint --fix --ext .ts src/services/graphql/generated",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Andres Suarez",
