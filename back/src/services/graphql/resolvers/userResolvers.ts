@@ -1,21 +1,21 @@
-import dummyUsers from "../../dummyProvider/dummyUsers"
+import { UserService } from "../../database/user.service"
+import { TaskService } from "../../database/task.service"
 import { Task, User, UserInput } from "../generated/API"
 
-const dummyIdGenerator = (m = Math, d = Date, h = 16, s = s => m.floor(s).toString(h)) =>
-    s(d.now() / 1000) + ' '.repeat(h).replace(/./g, () => s(m.random() * h))
+async function getListOfUsers(): Promise<User[]>{
+    return UserService.getListOfUsers()
+}
 
 async function getTasksOfUser(userId: string): Promise<Task[]> {
-    // En un futuro esto lo va a resolver el user service pegandole a mongo
-    const user = dummyUsers.find(user => user.id === userId)
-    if (!user) throw Error('User not found')
-    return Promise.resolve(user.tasks)
+    return UserService.getTasksOfUser(userId)
+}
+
+async function getListOfTasks(): Promise<Task[]>{
+    return TaskService.getListOfTasks()
 }
 
 async function createUser(userInput: UserInput): Promise<User>{
-    const newUser = {id: dummyIdGenerator(), ...userInput, tasks:[]}
-    dummyUsers.push(newUser)
-    return Promise.resolve(newUser)
-
+    return UserService.createUser(userInput)
 }
 
-export default { createUser, getTasksOfUser }
+export default { createUser, getTasksOfUser, getListOfUsers, getListOfTasks }

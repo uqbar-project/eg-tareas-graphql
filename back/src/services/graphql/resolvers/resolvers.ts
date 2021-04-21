@@ -1,5 +1,3 @@
-import dummyUsers from "../../dummyProvider/dummyUsers"
-import dummyTasks from "../../dummyProvider/dummyTasks"
 import userResolvers from "./userResolvers"
 import { Task, User, UserInput } from "../generated/API"
 
@@ -7,18 +5,12 @@ import { Task, User, UserInput } from "../generated/API"
 const resolvers = {
     Query: {
         // Con fines didacticos
-        getListOfUsers: () => {
-            return dummyUsers
-        },
+        getListOfUsers: async () => await userResolvers.getListOfUsers(),
 
         // Con fines didacticos
-        getListOfTasks: () => {
-            return dummyTasks
-        },
-        getTasksOfUser: async (_: any, { userId }: any): Promise<Task[]> => (
-            await userResolvers.getTasksOfUser(userId)
-        )
-
+        getListOfTasks: async () => userResolvers.getListOfTasks(),
+        
+        getTasksOfUser: async (_: any, { userId }: any): Promise<Task[]> => await userResolvers.getTasksOfUser(userId)
     },
 
     Mutation: {

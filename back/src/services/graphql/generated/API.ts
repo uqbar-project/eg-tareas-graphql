@@ -1,3 +1,4 @@
+import gql from 'graphql-tag'
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
@@ -41,7 +42,7 @@ export type QueryGetTasksOfUserArgs = {
 
 export type Task = {
   __typename?: 'Task';
-  id: Scalars['ID'];
+  _id: Scalars['ID'];
   title: Scalars['String'];
   description: Scalars['String'];
   priority?: Maybe<Scalars['Int']>;
@@ -55,7 +56,7 @@ export type TaskInput = {
 
 export type User = {
   __typename?: 'User';
-  id: Scalars['ID'];
+  _id: Scalars['ID'];
   name: Scalars['String'];
   email: Scalars['String'];
   password: Scalars['String'];

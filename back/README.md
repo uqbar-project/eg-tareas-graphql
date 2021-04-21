@@ -1,6 +1,12 @@
 # Backend - GraphQL
 
 ## How to develop
+To run the docker mongodb instance you have to run the following command:
+```bash
+docker-compose up
+```
+
+After that, you can run it locally with:
 ```bash
 npm run dev
 ```

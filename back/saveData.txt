@@ -1,0 +1,23 @@
+Capaz estaria bueno listar queries que se puedan tirar en graphql, por ahora voy a ir tirando algunas aca
+
+query {
+  getTasksOfUser(userId:"607f63648766a132baed6c33"){
+    _id
+    title
+  }
+}
+
+
+query {
+  getListOfTasks{
+    _id
+    title
+  }
+}
+
+mutation {
+  createUser(userInput: {name: "Prueba", email: "prueba@gmail.com", password: "admin"}) {
+    _id
+    name
+  }
+}

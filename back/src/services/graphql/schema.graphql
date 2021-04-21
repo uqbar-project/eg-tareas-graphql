@@ -1,5 +1,5 @@
 type User {
-    id: ID!,
+    _id: ID!,
     name: String!,
     email: String!,
     password: String!,
@@ -7,7 +7,7 @@ type User {
 }
 
 type Task {
-    id: ID!,
+    _id: ID!,
     title: String!,
     description: String!,
     priority: Int,
