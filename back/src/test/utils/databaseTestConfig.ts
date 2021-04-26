@@ -4,7 +4,6 @@ import { Db, MongoClient } from 'mongodb'
 import { InternalServerResponse } from "http-errors-response-ts/lib"
 import { User } from 'services/graphql/generated/API'
 
-
 let mongo: MongoClient
 let mongoTestServer: MongoMemoryServer
 export async function getTestDBConnection(): Promise<Db> {
@@ -14,6 +13,7 @@ export async function getTestDBConnection(): Promise<Db> {
         mongo = mongo || await MongoClient.connect(uri, { useUnifiedTopology: true })
         return mongo.db()
     } catch (error) {
+        console.log(error)
         throw new InternalServerResponse('There was an error while accessing the database')
     }
 }
@@ -41,4 +41,9 @@ export async function mongoTestFindUserByName(name: string): Promise<User> {
 export async function mongoTestCloseConnection(): Promise<void> {
     await mongo.close()
     await mongoTestServer.stop()
+}
+
+export async function mongoTestAddUser(user: unknown): Promise<void>{
+    const db = await getTestDBConnection()
+    db.collection('users').insertOne(user)
 }
