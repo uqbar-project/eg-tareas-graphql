@@ -1,5 +1,7 @@
 # Backend - GraphQL
 
+[![Build Status](https://travis-ci.com/andylarquy/tareas-graphql.svg?branch=master)](https://travis-ci.com/andylarquy/tareas-graphql)
+
 ## How to develop
 To run the docker mongodb instance you have to run the following command:
 ```bash
