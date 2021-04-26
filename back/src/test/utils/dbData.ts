@@ -1,11 +1,11 @@
 import { ObjectId } from "mongodb"
 
-const idUser1 = new ObjectId()
-const idUser2 = new ObjectId()
+export const idUser1 = new ObjectId()
+export const idUser2 = new ObjectId()
 
-const idTask1 = new ObjectId()
-const idTask2 = new ObjectId()
-const idTask3 = new ObjectId()
+export const idTask1 = new ObjectId()
+export const idTask2 = new ObjectId()
+export const idTask3 = new ObjectId()
 
 export const dbTask1 = {
     _id: idTask1,
