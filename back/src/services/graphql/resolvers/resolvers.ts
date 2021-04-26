@@ -1,3 +1,4 @@
+//FIXME: Ningun sentido tiene el pasamanos de userResolvers
 import userResolvers from "./userResolvers"
 import { Task, User, UserInput } from "../generated/API"
 

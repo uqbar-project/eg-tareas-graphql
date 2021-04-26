@@ -21,3 +21,16 @@ mutation {
     name
   }
 }
+
+query {
+  getListOfUsers{
+    _id
+    name
+    password
+    email
+    tasks{
+      _id
+      title
+    }
+  }
+}
