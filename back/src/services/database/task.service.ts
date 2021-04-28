@@ -9,7 +9,6 @@ async function getListOfTasks(): Promise<Task[]>{
        tasks = tasks.concat(user.tasks)
        })
 
-    // TODO: Validate the tasks (a domain class is overkill but a function sounds anti-pattern...)
     return tasks
 }
 

@@ -12,7 +12,6 @@ async function getTasksOfUser(userId: string): Promise<Task[]> {
         throw new NotFoundResponse('The user with the given id does not exist')
     }
 
-    // TODO: Validate the tasks (a domain class is overkill but a function sounds anti-pattern...)
     return userData.tasks
 }
 
