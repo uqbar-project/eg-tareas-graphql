@@ -71,8 +71,7 @@ describe('API Integration - Create User - Suite', () => {
       expect(responseAsJSON(result)).toMatchObject({
         errors: [
           {
-            message: "The user must have a name",
-            extensions: { code: "BAD_USER_INPUT" }
+            message: "Field \"UserInput.name\" of required type \"String!\" was not provided."
           }
         ]
       })
@@ -96,10 +95,7 @@ describe('API Integration - Create User - Suite', () => {
       expect(responseAsJSON(result)).toMatchObject({
         errors: [
           {
-            message: "The user must have an email",
-            extensions: {
-              code: "BAD_USER_INPUT"
-            }
+            message: "Field \"UserInput.email\" of required type \"String!\" was not provided."
           }
         ]
       })
@@ -122,10 +118,7 @@ describe('API Integration - Create User - Suite', () => {
       expect(responseAsJSON(result)).toMatchObject({
         errors: [
           {
-            message: "The user must have an email",
-            extensions: {
-              code: "BAD_USER_INPUT"
-            }
+            message: "Field \"UserInput.password\" of required type \"String!\" was not provided.",
           }
         ]
       })
@@ -148,10 +141,13 @@ describe('API Integration - Create User - Suite', () => {
       expect(responseAsJSON(result)).toMatchObject({
         errors: [
           {
-            message: "User information must be provided",
-            extensions: {
-              code: "BAD_USER_INPUT"
-            }
+            message: "Field \"UserInput.name\" of required type \"String!\" was not provided.",
+          },
+          {
+            message: "Field \"UserInput.email\" of required type \"String!\" was not provided.",
+          },
+          {
+            message: "Field \"UserInput.password\" of required type \"String!\" was not provided.",
           }
         ]
       })
@@ -160,7 +156,7 @@ describe('API Integration - Create User - Suite', () => {
     it('Without passing UserInput, it exits errored', async () => {
       const result = await request(app).post('/graphql').send({
         query: `mutation {
-            createUser() {
+            createUser {
               _id
               name
               email
@@ -169,7 +165,7 @@ describe('API Integration - Create User - Suite', () => {
           }`
       })
 
-      expect(result.status).toBe(400)
+      expect(result.status).toBe(200)
       expect(await mongoTestDBIsEmpty())
       expect(responseAsJSON(result)).toMatchObject({
         errors: [
@@ -187,7 +183,9 @@ describe('API Integration - Create User - Suite', () => {
   describe("If the connection with the database can't be established", () => {
     beforeEach(async () => {
       mockedDatabase.getDBConnection.mockImplementation(() => {
-        throw new InternalServerResponse('There was an error while accessing the database')
+        const error: any = new InternalServerResponse('There was an error while accessing the database')
+        error.extensions = { code: "INTERNAL_SERVER_ERROR" }
+        throw error
       })
       await mongoTestEmptyDatabase()
     })

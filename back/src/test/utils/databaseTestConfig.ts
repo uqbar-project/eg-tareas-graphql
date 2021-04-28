@@ -14,7 +14,10 @@ export async function getTestDBConnection(): Promise<Db> {
         return mongo.db()
     } catch (error) {
         console.log(error)
-        throw new InternalServerResponse('There was an error while accessing the database')
+        //FIXME!! https://i.giphy.com/media/vyTnNTrs3wqQ0UIvwE/giphy.webp
+        const internalServerError: any = new InternalServerResponse('There was an error while accessing the database')
+        internalServerError.extensions = { code: "INTERNAL_SERVER_ERROR" }
+        throw internalServerError
     }
 }
 
@@ -43,7 +46,7 @@ export async function mongoTestCloseConnection(): Promise<void> {
     await mongoTestServer.stop()
 }
 
-export async function mongoTestAddUser(user: unknown): Promise<void>{
+export async function mongoTestAddUser(user: unknown): Promise<void> {
     const db = await getTestDBConnection()
-    db.collection('users').insertOne(user)
+    await db.collection('users').insertOne(user)
 }

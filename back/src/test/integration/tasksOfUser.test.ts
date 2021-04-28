@@ -132,7 +132,7 @@ describe('API Integration - Suite', () => {
           }`
         })
 
-        expect(result.status).toBe(400)
+        expect(result.status).toBe(200)
         expect(responseAsJSON(result)).toMatchObject({
           errors: [
             {
@@ -157,13 +157,13 @@ describe('API Integration - Suite', () => {
           }`
         })
 
-        expect(result.status).toBe(400)
+        expect(result.status).toBe(200)
         expect(responseAsJSON(result)).toMatchObject({
           errors: [
             {
-              message: "User id malformatted",
+              message: "Malformatted user id",
               extensions: {
-                code: "GRPAHQL_VALIDATION_FAILED"
+                code: "BAD_USER_INPUT"
               }
             }
           ]
