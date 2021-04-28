@@ -21,9 +21,6 @@ describe('API Integration - Suite', () => {
 
   describe('List of users', () => {
     describe('When we try to retrieve the list of users', () => {
-      beforeAll(() => {
-        mockedDatabase.getDBConnection.mockImplementation(getTestDBConnection)
-      })
 
       beforeEach(async () => {
         await mongoTestEmptyDatabase()
