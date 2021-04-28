@@ -102,6 +102,31 @@ describe('API Integration - Suite', () => {
           }
         })
       })
+      it('With no users in the db, it retrieves an empty list', async () => {
+        const result = await request(app).post('/graphql').send({
+          query: `query {
+            getListOfUsers{
+              _id
+              name
+              password
+              email
+              tasks{
+                _id
+                title
+                description
+                priority
+              }
+            }
+          }`
+        })
+
+        expect(result.status).toBe(200)
+        expect(responseAsJSON(result)).toMatchObject({
+          data: {
+            getListOfUsers: []
+          }
+        })
+      })
     })
   })
 })

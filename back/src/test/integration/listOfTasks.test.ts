@@ -8,7 +8,7 @@ import request from "supertest"
 import app from "../../api/app"
 import * as dbConfig from "services/database/databaseConfig"
 import { responseAsJSON } from "../utils/supertestUtils"
-import { dbUser1, dbUser2, idTask1, idTask2, idTask3 } from "../utils/dbData"
+import { idUser1, dbUser1, dbUser2, idTask1, idTask2, idTask3 } from "../utils/dbData"
 
 jest.mock("../../services/database/databaseConfig")
 const mockedDatabase = dbConfig as jest.Mocked<typeof dbConfig>
@@ -80,7 +80,6 @@ describe('API Integration - Suite', () => {
         })
 
         expect(result.status).toBe(200)
-        console.log(result.text)
         expect(responseAsJSON(result)).toMatchObject({
           data: {
             getListOfTasks: [
@@ -101,8 +100,38 @@ describe('API Integration - Suite', () => {
                 title: "Tarea 3",
                 description: "Esta es la tarea 3",
                 priority: 2
-            }
+              }
             ]
+          }
+        })
+      })
+
+      it('With no tasks in the db, it retrieves an empty list', async () => {
+        const userWithoutTasks = {
+          _id: idUser1,
+          name: "Usuario 1",
+          email: "usuario1@gmail.com",
+          password: "usuario1",
+          tasks: []
+        }
+        
+        await mongoTestAddUser(userWithoutTasks)
+
+        const result = await request(app).post('/graphql').send({
+          query: `{
+            getListOfTasks{
+              _id
+              title
+              description
+              priority
+            }
+          }`
+        })
+
+        expect(result.status).toBe(200)
+        expect(responseAsJSON(result)).toMatchObject({
+          data: {
+            getListOfTasks: []
           }
         })
       })

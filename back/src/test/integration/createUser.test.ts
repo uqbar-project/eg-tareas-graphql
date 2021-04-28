@@ -15,13 +15,12 @@ jest.mock("../../services/database/databaseConfig")
 const mockedDatabase = dbConfig as jest.Mocked<typeof dbConfig>
 mockedDatabase.getDBConnection.mockImplementation(getTestDBConnection)
 
-//TODO: Separar tests de integracion por operacion
 describe('API Integration - Create User - Suite', () => {
   afterAll(async () => {
     await mongoTestCloseConnection()
   })
 
-  describe('When we try to create a new user', () => {
+  describe('When we try to create a user', () => {
     beforeEach(async () => {
       await mongoTestEmptyDatabase()
     })
