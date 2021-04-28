@@ -1,22 +1,22 @@
-//FIXME: Ningun sentido tiene el pasamanos de userResolvers
-import userResolvers from "./userResolvers"
 import { Task, User, UserInput } from "../generated/API"
+import { UserService } from "../../../services/database/user.service"
+import { TaskService } from "../../../services/database/task.service"
 
 
 const resolvers = {
     Query: {
         // Con fines didacticos
-        getListOfUsers: async () => await userResolvers.getListOfUsers(),
+        getListOfUsers: async (): Promise<User[]> => await UserService.getListOfUsers(),
 
         // Con fines didacticos
-        getListOfTasks: async () => userResolvers.getListOfTasks(),
-        
-        getTasksOfUser: async (_: any, { userId }: any): Promise<Task[]> => await userResolvers.getTasksOfUser(userId)
+        getListOfTasks: async (): Promise<Task[]> => await TaskService.getListOfTasks(),
+
+        getTasksOfUser: async (_: unknown, { userId }): Promise<Task[]> => await UserService.getTasksOfUser(userId)
     },
 
     Mutation: {
-        createUser: async (_: any, { userInput }: { userInput: UserInput }): Promise<User> => (
-            await userResolvers.createUser(userInput)
+        createUser: async (_: unknown, { userInput }: { userInput: UserInput }): Promise<User> => (
+            await UserService.createUser(userInput)
         )
     }
 }
