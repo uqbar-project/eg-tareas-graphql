@@ -27,8 +27,7 @@ function validateUserOnCreate(userInput: UserInput): void {
   }
 }
 
-function validateUserId(userId: string) {
-  console.log(ObjectId.isValid(userId))
+function validateUserId(userId: string): void {
   if (!ObjectId.isValid(userId)) {
     throw new GraphqlBadRequest('Malformatted user id')
   }
