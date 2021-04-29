@@ -5,15 +5,15 @@ import resolvers from "./resolvers/resolvers"
 const typeDefs = importSchema('**/*.graphql')
 
 const directiveResolvers = {
-    isPrivate(next: any){
-        return next().then(() => undefined)
-    }
+  isPrivate(next){
+    return next().then(() => undefined)
+  }
 }
 
 const schema = makeExecutableSchema({
-    typeDefs,
-    resolvers,
-    directiveResolvers
+  typeDefs,
+  resolvers,
+  directiveResolvers
 })
 
 export default schema

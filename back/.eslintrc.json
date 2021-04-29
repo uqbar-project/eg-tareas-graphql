@@ -10,7 +10,8 @@
   ],
   "rules": {
     "semi":  ["error", "never"],
-    "eol-last": ["warn", "always"]
+    "eol-last": ["warn", "always"],
+    "indent": [2, 2]
   },
   "overrides": [
     {

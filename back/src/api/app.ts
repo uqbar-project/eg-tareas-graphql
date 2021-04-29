@@ -5,8 +5,8 @@ import schema from "../services/graphql/schema"
 const app = express()
 
 app.use('/graphql', graphqlHTTP({
-    schema: schema,
-    graphiql: true
-  }))
+  schema: schema,
+  graphiql: true
+}))
 
-  export default app
+export default app
