@@ -9,7 +9,7 @@ import request from "supertest"
 import app from "../../api/app"
 import * as dbConfig from "services/database/databaseConfig"
 import { responseAsJSON } from "../utils/supertestUtils"
-import { GraphqlInternalServerError } from "services/validators/customErrors"
+import { BAD_USER_INPUT, GraphqlInternalServerError, INTERNAL_SERVER_ERROR } from "services/validators/customErrors"
 
 jest.mock("../../services/database/databaseConfig")
 const mockedDatabase = dbConfig as jest.Mocked<typeof dbConfig>
@@ -205,7 +205,7 @@ describe('API Integration - Create User - Suite', () => {
           {
             message: "User information must be provided",
             extensions: {
-              code: "BAD_USER_INPUT"
+              code: BAD_USER_INPUT
             }
           }
         ]
@@ -239,7 +239,7 @@ describe('API Integration - Create User - Suite', () => {
           {
             message: "There was an error while accessing the database",
             extensions: {
-              code: "INTERNAL_SERVER_ERROR"
+              code: INTERNAL_SERVER_ERROR
             }
           }
         ]

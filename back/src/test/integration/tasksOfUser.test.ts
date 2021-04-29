@@ -9,6 +9,7 @@ import app from "../../api/app"
 import * as dbConfig from "services/database/databaseConfig"
 import { responseAsJSON } from "../utils/supertestUtils"
 import { idUser1, dbUser1, dbUser2, idTask1, idTask2 } from "../utils/dbData"
+import { BAD_USER_INPUT } from "services/validators/customErrors"
 
 jest.mock("../../services/database/databaseConfig")
 const mockedDatabase = dbConfig as jest.Mocked<typeof dbConfig>
@@ -138,7 +139,7 @@ describe('API Integration - Suite', () => {
             {
               message: "The user with the given id does not exist",
               extensions: {
-                code: "BAD_USER_INPUT"
+                code: BAD_USER_INPUT
               }
             }
           ]
@@ -163,7 +164,7 @@ describe('API Integration - Suite', () => {
             {
               message: "Malformatted user id",
               extensions: {
-                code: "BAD_USER_INPUT"
+                code: BAD_USER_INPUT
               }
             }
           ]
