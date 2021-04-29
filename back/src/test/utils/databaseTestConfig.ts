@@ -3,6 +3,7 @@ import { MongoMemoryServer } from 'mongodb-memory-server'
 import { Db, MongoClient } from 'mongodb'
 import { InternalServerResponse } from "http-errors-response-ts/lib"
 import { User } from 'services/graphql/generated/API'
+import { GraphqlInternalServerError } from 'services/validators/customErrors'
 
 let mongo: MongoClient
 let mongoTestServer: MongoMemoryServer
@@ -14,10 +15,7 @@ export async function getTestDBConnection(): Promise<Db> {
         return mongo.db()
     } catch (error) {
         console.log(error)
-        //FIXME!! https://i.giphy.com/media/vyTnNTrs3wqQ0UIvwE/giphy.webp
-        const internalServerError: any = new InternalServerResponse('There was an error while accessing the database')
-        internalServerError.extensions = { code: "INTERNAL_SERVER_ERROR" }
-        throw internalServerError
+        throw new GraphqlInternalServerError('There was an error while accessing the database')
     }
 }
 

@@ -1,6 +1,7 @@
 import { MongoClient, Db } from "mongodb"
 import { InternalServerResponse } from "http-errors-response-ts/lib"
 import dotenv from "dotenv"
+import { GraphqlInternalServerError } from "services/validators/customErrors"
 
 dotenv.config()
 
@@ -16,16 +17,11 @@ export async function getDBConnection(): Promise<Db> {
         await mongo.connect()
         return mongo.db()
     } catch (error) {
-        //FIXME!! https://i.giphy.com/media/vyTnNTrs3wqQ0UIvwE/giphy.webp
         if (error instanceof InternalServerResponse) {
-            const internalServerError: any = error
-            internalServerError.extensions = { code: "INTERNAL_SERVER_ERROR" }
-            throw internalServerError
+            throw new GraphqlInternalServerError(error.message)
         } else {
             console.log(error)
-            const internalServerError: any = new InternalServerResponse('There was an error while accessing the database')
-            internalServerError.extensions = { code: "INTERNAL_SERVER_ERROR" }
-            throw internalServerError
+            throw new GraphqlInternalServerError('There was an error while accessing the database')
         }
     }
 }

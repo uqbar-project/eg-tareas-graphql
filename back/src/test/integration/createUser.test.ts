@@ -10,6 +10,7 @@ import app from "../../api/app"
 import * as dbConfig from "services/database/databaseConfig"
 import { responseAsJSON } from "../utils/supertestUtils"
 import { InternalServerResponse } from "http-errors-response-ts/lib"
+import { GraphqlInternalServerError } from "services/validators/customErrors"
 
 jest.mock("../../services/database/databaseConfig")
 const mockedDatabase = dbConfig as jest.Mocked<typeof dbConfig>
@@ -183,9 +184,7 @@ describe('API Integration - Create User - Suite', () => {
   describe("If the connection with the database can't be established", () => {
     beforeEach(async () => {
       mockedDatabase.getDBConnection.mockImplementation(() => {
-        const error: any = new InternalServerResponse('There was an error while accessing the database')
-        error.extensions = { code: "INTERNAL_SERVER_ERROR" }
-        throw error
+        throw new GraphqlInternalServerError('There was an error while accessing the database')
       })
       await mongoTestEmptyDatabase()
     })

@@ -1,9 +1,9 @@
 import { Task, User, UserInput } from "services/graphql/generated/API"
 import { getDBConnection } from "./databaseConfig"
 import { isEmpty } from "lodash"
-import { NotFoundResponse } from "http-errors-response-ts/lib"
 import { ObjectId } from "mongodb"
 import { UserValidator } from "services/validators/userValidator"
+import { GraphqlBadRequest } from "services/validators/customErrors"
 
 async function getTasksOfUser(userId: string): Promise<Task[]> {
     const db = await getDBConnection()
@@ -12,10 +12,7 @@ async function getTasksOfUser(userId: string): Promise<Task[]> {
 
     const userData = await db.collection('users').findOne({ _id: new ObjectId(userId) }, { projection: { _id: 0, tasks: 1 } })
     if (isEmpty(userData)) {
-        //FIXME!! https://i.giphy.com/media/vyTnNTrs3wqQ0UIvwE/giphy.webp
-        const error: any = new NotFoundResponse('The user with the given id does not exist')
-        error.extensions = {code: "BAD_USER_INPUT"}
-        throw error
+        throw new GraphqlBadRequest('The user with the given id does not exist')
     }
 
     return userData.tasks
