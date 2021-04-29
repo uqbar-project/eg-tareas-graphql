@@ -1,28 +1,30 @@
+directive @isPrivate on FIELD_DEFINITION
+
 type User {
-    _id: ID!,
-    name: String!,
-    email: String!,
-    password: String!,
+    _id: ID!
+    name: String!
+    email: String!
+    password: String @isPrivate
     tasks: [Task]
 }
 
 type Task {
-    _id: ID!,
-    title: String!,
-    description: String!,
-    priority: Int,
+    _id: ID!
+    title: String!
+    description: String!
+    priority: Int
 }
 
 input UserInput {
-    name: String!,
-    email: String!,
-    password: String!,
+    name: String!
+    email: String!
+    password: String!
 }
 
 input TaskInput {
-    title: String!,
-    description: String!,
-    priority: Int,
+    title: String!
+    description: String!
+    priority: Int
 }
 
 type Query {

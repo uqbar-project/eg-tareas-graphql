@@ -1,9 +1,8 @@
 
 import { MongoMemoryServer } from 'mongodb-memory-server'
 import { Db, MongoClient } from 'mongodb'
-import { InternalServerResponse } from "http-errors-response-ts/lib"
 import { User } from 'services/graphql/generated/API'
-import { GraphqlInternalServerError } from 'services/validators/customErrors'
+import { GraphqlInternalServerError } from '../../services/validators/customErrors'
 
 let mongo: MongoClient
 let mongoTestServer: MongoMemoryServer
@@ -26,7 +25,7 @@ export async function dropDatabaseMongoTestDB(): Promise<void> {
 
 export async function mongoTestEmptyDatabase(): Promise<void> {
     const db = await getTestDBConnection()
-    db.dropDatabase()
+    await db.dropDatabase()
 }
 
 export async function mongoTestDBIsEmpty(): Promise<boolean> {

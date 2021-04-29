@@ -9,7 +9,6 @@ import request from "supertest"
 import app from "../../api/app"
 import * as dbConfig from "services/database/databaseConfig"
 import { responseAsJSON } from "../utils/supertestUtils"
-import { InternalServerResponse } from "http-errors-response-ts/lib"
 import { GraphqlInternalServerError } from "services/validators/customErrors"
 
 jest.mock("../../services/database/databaseConfig")
@@ -25,36 +24,69 @@ describe('API Integration - Create User - Suite', () => {
     beforeEach(async () => {
       await mongoTestEmptyDatabase()
     })
-    it('With valid fields, it gets created successfully', async () => {
-      const result = await request(app).post('/graphql').send({
-        query: `mutation {
-              createUser(userInput: {name: "prueba", email: "prueba@gmail.com", password: "admin"}) {
-                _id
-                name
-                email
-                password
-              }
-            }`
-      })
 
-      expect(result.status).toBe(200)
-      expect(responseAsJSON(result).data.createUser._id).toBeTruthy()
-      expect(responseAsJSON(result)).toMatchObject({
-        data: {
-          createUser: {
-            name: "prueba",
-            email: "prueba@gmail.com",
-            password: "admin"
-          }
-        }
+    describe('With valid fields', () => {
+      beforeEach(async () => {
+        await mongoTestEmptyDatabase()
       })
-      expect(await mongoTestFindUserByName('prueba')).toMatchObject({
-        name: 'prueba',
-        email: 'prueba@gmail.com',
-        password: 'admin'
+      it('it gets created successfully', async () => {
+        const result = await request(app).post('/graphql').send({
+          query: `mutation {
+                createUser(userInput: {name: "prueba", email: "prueba@gmail.com", password: "admin"}) {
+                  _id
+                  name
+                  email
+                }
+              }`
+        })
+
+        expect(result.status).toBe(200)
+        console.log(result.text)
+        expect(responseAsJSON(result).data.createUser._id).toBeTruthy()
+        expect(responseAsJSON(result)).toMatchObject({
+          data: {
+            createUser: {
+              name: "prueba",
+              email: "prueba@gmail.com"
+            }
+          }
+        })
+        expect(await mongoTestFindUserByName('prueba')).toMatchObject({
+          name: 'prueba',
+          email: 'prueba@gmail.com',
+          password: 'admin'
+        })
+      })
+      it("you can't retrieve the password", async () => {
+        const result = await request(app).post('/graphql').send({
+          query: `mutation {
+                createUser(userInput: {name: "prueba", email: "prueba@gmail.com", password: "admin"}) {
+                  _id
+                  name
+                  email
+                  password
+                }
+              }`
+        })
+
+        expect(result.status).toBe(200)
+        expect(responseAsJSON(result).data.createUser._id).toBeTruthy()
+        expect(responseAsJSON(result)).toMatchObject({
+          data: {
+            createUser: {
+              name: "prueba",
+              email: "prueba@gmail.com",
+              password: null
+            }
+          }
+        })
+        expect(await mongoTestFindUserByName('prueba')).toMatchObject({
+          name: 'prueba',
+          email: 'prueba@gmail.com',
+          password: 'admin'
+        })
       })
     })
-
     it('With missing name, it exits errored', async () => {
       const result = await request(app).post('/graphql').send({
         query: `mutation { 

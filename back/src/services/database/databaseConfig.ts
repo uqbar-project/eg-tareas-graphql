@@ -1,7 +1,7 @@
 import { MongoClient, Db } from "mongodb"
 import { InternalServerResponse } from "http-errors-response-ts/lib"
 import dotenv from "dotenv"
-import { GraphqlInternalServerError } from "services/validators/customErrors"
+import { GraphqlInternalServerError } from "../../services/validators/customErrors"
 
 dotenv.config()
 

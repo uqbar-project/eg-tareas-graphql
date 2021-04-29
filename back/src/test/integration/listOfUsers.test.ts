@@ -53,7 +53,7 @@ describe('API Integration - Suite', () => {
               {
                 name: "Usuario 1",
                 email: "usuario1@gmail.com",
-                password: "usuario1"
+                password: null
               }
             ]
           }
@@ -88,12 +88,12 @@ describe('API Integration - Suite', () => {
               {
                 name: "Usuario 1",
                 email: "usuario1@gmail.com",
-                password: "usuario1"
+                password: null
               },
               {
                 name: "Usuario 2",
                 email: "usuario2@gmail.com",
-                password: "usuario2"
+                password: null
               }
             ]
           }

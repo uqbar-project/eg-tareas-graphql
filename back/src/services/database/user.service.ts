@@ -1,8 +1,8 @@
-import { Task, User, UserInput } from "services/graphql/generated/API"
+import { Task, User, UserInput } from "../../services/graphql/generated/API"
 import { getDBConnection } from "./databaseConfig"
 import { ObjectId } from "mongodb"
-import { UserValidator } from "services/validators/userValidator"
-import { GraphqlBadRequest } from "services/validators/customErrors"
+import { UserValidator } from "../../services/validators/userValidator"
+import { GraphqlBadRequest } from "../../services/validators/customErrors"
 
 async function getTasksOfUser(userId: string): Promise<Task[]> {
     const db = await getDBConnection()
