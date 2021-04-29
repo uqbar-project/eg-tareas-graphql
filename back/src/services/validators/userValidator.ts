@@ -8,7 +8,6 @@ import { ObjectId } from "mongodb"
 import { UserInput } from "../graphql/generated/API"
 import { GraphqlBadRequest } from "./customErrors"
 
-//TODO: Tipar errores de negocio
 function validateUserOnCreate(userInput: UserInput): void {
   if (!userInput) {
     throw new GraphqlBadRequest('User information must be provided')
