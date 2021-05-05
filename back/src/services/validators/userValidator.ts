@@ -9,6 +9,7 @@ import { UserInput } from "../graphql/generated/API"
 import { GraphqlBadRequest } from "./customErrors"
 
 function validateUserOnCreate(userInput: UserInput): void {
+  // TODO: Updatear el schema para no tener q hacer esta validacion
   if (!userInput) {
     throw new GraphqlBadRequest('User information must be provided')
   }

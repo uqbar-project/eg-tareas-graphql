@@ -44,5 +44,21 @@ type Mutation {
 }
 
 type Mutation {
-    createTask(taskInput: TaskInput): Task
+    updateUser(userInput: UserInput): User
+}
+
+type Mutation {
+    deleteUser(userInput: UserInput): User
+}
+
+type Mutation {
+    addTask(userId: ID!, taskInput: TaskInput!): Task
+}
+
+type Mutation {
+    updateTask(taskId:ID!, taskInput: TaskInput!): Task
+}
+
+type Mutation {
+    deleteTask(taskId: ID!): ID
 }

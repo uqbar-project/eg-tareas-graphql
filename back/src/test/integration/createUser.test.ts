@@ -213,6 +213,7 @@ describe('API Integration - Create User - Suite', () => {
     })
   })
 
+  // TODO: Revisar este test
   describe("If the connection with the database can't be established", () => {
     beforeEach(async () => {
       mockedDatabase.getDBConnection.mockImplementation(() => {
