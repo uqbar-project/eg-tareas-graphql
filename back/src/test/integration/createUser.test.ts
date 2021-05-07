@@ -32,7 +32,7 @@ describe('API Integration - Create User - Suite', () => {
       it('it gets created successfully', async () => {
         const result = await request(app).post('/graphql').send({
           query: `mutation {
-                createUser(userInput: {name: "prueba", email: "prueba@gmail.com", password: "admin"}) {
+                createUser(createUserInput: {name: "prueba", email: "prueba@gmail.com", password: "admin"}) {
                   _id
                   name
                   email
@@ -60,7 +60,7 @@ describe('API Integration - Create User - Suite', () => {
       it("you can't retrieve the password", async () => {
         const result = await request(app).post('/graphql').send({
           query: `mutation {
-                createUser(userInput: {name: "prueba", email: "prueba@gmail.com", password: "admin"}) {
+                createUser(createUserInput: {name: "prueba", email: "prueba@gmail.com", password: "admin"}) {
                   _id
                   name
                   email
@@ -90,7 +90,7 @@ describe('API Integration - Create User - Suite', () => {
     it('With missing name, it exits errored', async () => {
       const result = await request(app).post('/graphql').send({
         query: `mutation { 
-          createUser(userInput: {email: "prueba@gmail.com", password: "admin"}) {
+          createUser(createUserInput: {email: "prueba@gmail.com", password: "admin"}) {
               _id
               name
               email
@@ -104,7 +104,7 @@ describe('API Integration - Create User - Suite', () => {
       expect(responseAsJSON(result)).toMatchObject({
         errors: [
           {
-            message: "Field \"UserInput.name\" of required type \"String!\" was not provided."
+            message: "Field \"CreateUserInput.name\" of required type \"String!\" was not provided."
           }
         ]
       })
@@ -114,7 +114,7 @@ describe('API Integration - Create User - Suite', () => {
     it('With missing email, it exits errored', async () => {
       const result = await request(app).post('/graphql').send({
         query: `mutation {
-            createUser(userInput: {name: "prueba", password: "admin"}) {
+            createUser(createUserInput: {name: "prueba", password: "admin"}) {
               _id
               name
               email
@@ -128,7 +128,7 @@ describe('API Integration - Create User - Suite', () => {
       expect(responseAsJSON(result)).toMatchObject({
         errors: [
           {
-            message: "Field \"UserInput.email\" of required type \"String!\" was not provided."
+            message: "Field \"CreateUserInput.email\" of required type \"String!\" was not provided."
           }
         ]
       })
@@ -137,7 +137,7 @@ describe('API Integration - Create User - Suite', () => {
     it('With missing password, it exits errored', async () => {
       const result = await request(app).post('/graphql').send({
         query: `mutation {
-            createUser(userInput: {email: "prueba@gmail.com", name: "prueba"}) {
+            createUser(createUserInput: {email: "prueba@gmail.com", name: "prueba"}) {
               _id
               name
               email
@@ -151,7 +151,7 @@ describe('API Integration - Create User - Suite', () => {
       expect(responseAsJSON(result)).toMatchObject({
         errors: [
           {
-            message: "Field \"UserInput.password\" of required type \"String!\" was not provided.",
+            message: "Field \"CreateUserInput.password\" of required type \"String!\" was not provided.",
           }
         ]
       })
@@ -160,7 +160,7 @@ describe('API Integration - Create User - Suite', () => {
     it('Without filled fields, it exits errored', async () => {
       const result = await request(app).post('/graphql').send({
         query: `mutation {
-            createUser(userInput: {}) {
+            createUser(createUserInput: {}) {
               _id
               name
               email
@@ -174,13 +174,13 @@ describe('API Integration - Create User - Suite', () => {
       expect(responseAsJSON(result)).toMatchObject({
         errors: [
           {
-            message: "Field \"UserInput.name\" of required type \"String!\" was not provided.",
+            message: "Field \"CreateUserInput.name\" of required type \"String!\" was not provided.",
           },
           {
-            message: "Field \"UserInput.email\" of required type \"String!\" was not provided.",
+            message: "Field \"CreateUserInput.email\" of required type \"String!\" was not provided.",
           },
           {
-            message: "Field \"UserInput.password\" of required type \"String!\" was not provided.",
+            message: "Field \"CreateUserInput.password\" of required type \"String!\" was not provided.",
           }
         ]
       })
@@ -225,7 +225,7 @@ describe('API Integration - Create User - Suite', () => {
     it('And you try to create a new user with valid fields, it exits errored', async () => {
       const result = await request(app).post('/graphql').send({
         query: `mutation {
-            createUser(userInput: {name: "prueba", email: "prueba@gmail.com", password: "admin"}) {
+            createUser(createUserInput: {name: "prueba", email: "prueba@gmail.com", password: "admin"}) {
               _id
               name
               email

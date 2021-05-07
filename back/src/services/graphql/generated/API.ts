@@ -11,20 +11,53 @@ export type Scalars = {
   Float: number;
 };
 
+
+export type CreateUserInput = {
+  name: Scalars['String'];
+  email: Scalars['String'];
+  password: Scalars['String'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
-  createTask?: Maybe<Task>;
+  addTask?: Maybe<Task>;
   createUser?: Maybe<User>;
+  deleteTask?: Maybe<Scalars['ID']>;
+  deleteUser?: Maybe<User>;
+  updateTask?: Maybe<Task>;
+  updateUser?: Maybe<User>;
 };
 
 
-export type MutationCreateTaskArgs = {
-  taskInput?: Maybe<TaskInput>;
+export type MutationAddTaskArgs = {
+  userId: Scalars['ID'];
+  taskInput: TaskInput;
 };
 
 
 export type MutationCreateUserArgs = {
-  userInput?: Maybe<UserInput>;
+  createUserInput?: Maybe<CreateUserInput>;
+};
+
+
+export type MutationDeleteTaskArgs = {
+  taskId: Scalars['ID'];
+};
+
+
+export type MutationDeleteUserArgs = {
+  updateUserInput: UpdateUserInput;
+};
+
+
+export type MutationUpdateTaskArgs = {
+  taskId: Scalars['ID'];
+  taskInput: TaskInput;
+};
+
+
+export type MutationUpdateUserArgs = {
+  updateUserInput: UpdateUserInput;
 };
 
 export type Query = {
@@ -53,17 +86,18 @@ export type TaskInput = {
   priority?: Maybe<Scalars['Int']>;
 };
 
+export type UpdateUserInput = {
+  _id: Scalars['ID'];
+  name?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+  password?: Maybe<Scalars['String']>;
+};
+
 export type User = {
   __typename?: 'User';
   _id: Scalars['ID'];
   name: Scalars['String'];
   email: Scalars['String'];
-  password: Scalars['String'];
+  password?: Maybe<Scalars['String']>;
   tasks?: Maybe<Array<Maybe<Task>>>;
-};
-
-export type UserInput = {
-  name: Scalars['String'];
-  email: Scalars['String'];
-  password: Scalars['String'];
 };

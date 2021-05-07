@@ -1,4 +1,4 @@
-import { Task, User, UserInput } from "../../services/graphql/generated/API"
+import { Task, User, CreateUserInput } from "../../services/graphql/generated/API"
 import { getDBConnection } from "./databaseConfig"
 import { ObjectId } from "mongodb"
 import { UserValidator } from "../../services/validators/userValidator"
@@ -21,12 +21,12 @@ async function getListOfUsers(): Promise<User[]> {
   return await db.collection('users').find().toArray()
 }
 
-async function createUser(userInput: UserInput): Promise<User> {
+async function createUser(createUserInput: CreateUserInput): Promise<User> {
   const db = await getDBConnection()
-  UserValidator.validateUserOnCreate(userInput)
+  UserValidator.validateUserOnCreate(createUserInput)
 
-  const result = await db.collection('users').insertOne(userInput)
-  return { _id: result.insertedId, ...userInput }
+  const result = await db.collection('users').insertOne(createUserInput)
+  return { _id: result.insertedId, ...createUserInput }
 }
 
 export const UserService = { getTasksOfUser, getListOfUsers, createUser }

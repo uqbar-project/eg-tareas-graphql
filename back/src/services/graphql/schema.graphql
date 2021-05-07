@@ -15,10 +15,17 @@ type Task {
     priority: Int
 }
 
-input UserInput {
+input CreateUserInput {
     name: String!
     email: String!
     password: String!
+}
+
+input UpdateUserInput {
+    _id: ID!
+    name: String
+    email: String
+    password: String
 }
 
 input TaskInput {
@@ -40,15 +47,15 @@ type Query {
 }
 
 type Mutation {
-    createUser(userInput: UserInput): User
+    createUser(createUserInput: CreateUserInput): User
 }
 
 type Mutation {
-    updateUser(userInput: UserInput): User
+    updateUser(updateUserInput: UpdateUserInput!): User
 }
 
 type Mutation {
-    deleteUser(userInput: UserInput): User
+    deleteUser(updateUserInput: UpdateUserInput!): User
 }
 
 type Mutation {

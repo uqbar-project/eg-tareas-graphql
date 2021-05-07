@@ -1,4 +1,4 @@
-import { Task, TaskInput, User, UserInput } from "../generated/API"
+import { Task, TaskInput, User, CreateUserInput } from "../generated/API"
 import { UserService } from "../../../services/database/user.service"
 import { TaskService } from "../../../services/database/task.service"
 import { ObjectId } from "bson"
@@ -16,8 +16,8 @@ const resolvers = {
   },
 
   Mutation: {
-    createUser: async (_: unknown, { userInput }: { userInput: UserInput }): Promise<User> => (
-      await UserService.createUser(userInput)
+    createUser: async (_: unknown, { createUserInput }: { createUserInput: CreateUserInput }): Promise<User> => (
+      await UserService.createUser(createUserInput)
     ),
 
     addTask: async (_: unknown, { userId, taskInput }: { userId: string, taskInput: TaskInput }): Promise<Task> => (
