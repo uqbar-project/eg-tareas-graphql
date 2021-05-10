@@ -34,3 +34,18 @@ query {
     }
   }
 }
+
+mutation {
+  updateUser(updateUserInput: {_id: "607cce84108d1a62e9a7f8ae", name: "Sebastian De Vita", email:"sebassdevita@gmail.com"}) {
+    _id
+		name
+    email
+    password
+    tasks {
+      _id
+      title
+      description
+      priority
+    }
+  }
+}

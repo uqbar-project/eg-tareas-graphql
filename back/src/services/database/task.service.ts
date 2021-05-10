@@ -1,6 +1,6 @@
 import { ObjectId } from "bson"
-import { Task, TaskInput } from "services/graphql/generated/API"
-import { TaskValidator } from "services/validators/taskValidator"
+import { Task, TaskInput } from "../../services/graphql/generated/API"
+import { TaskValidator } from "../../services/validators/taskValidator"
 import { getDBConnection } from "./databaseConfig"
 
 async function getListOfTasks(): Promise<Task[]> {

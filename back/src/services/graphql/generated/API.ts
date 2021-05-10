@@ -1,3 +1,4 @@
+import gql from 'graphql-tag'
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
@@ -90,7 +91,6 @@ export type UpdateUserInput = {
   _id: Scalars['ID'];
   name?: Maybe<Scalars['String']>;
   email?: Maybe<Scalars['String']>;
-  password?: Maybe<Scalars['String']>;
 };
 
 export type User = {

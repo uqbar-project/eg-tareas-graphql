@@ -3,36 +3,59 @@ import {
   mongoTestDBIsEmpty,
   mongoTestCloseConnection,
   mongoTestFindUserByName,
-  mongoTestEmptyDatabase
+  mongoTestEmptyDatabase,
+  mongoTestAddUser
 } from "../utils/databaseTestConfig"
 import request from "supertest"
 import app from "../../api/app"
 import * as dbConfig from "services/database/databaseConfig"
 import { responseAsJSON } from "../utils/supertestUtils"
-import { BAD_USER_INPUT, GraphqlInternalServerError, INTERNAL_SERVER_ERROR } from "services/validators/customErrors"
+import { GraphqlInternalServerError, INTERNAL_SERVER_ERROR } from "services/validators/customErrors"
+import { dbTask2, idTask2, idUser1 } from "test/utils/dbData"
 
 jest.mock("../../services/database/databaseConfig")
 const mockedDatabase = dbConfig as jest.Mocked<typeof dbConfig>
 mockedDatabase.getDBConnection.mockImplementation(getTestDBConnection)
 
-describe('API Integration - Create User - Suite', () => {
+describe('API Integration - Update User - Suite', () => {
   afterAll(async () => {
     await mongoTestCloseConnection()
   })
 
-  describe('When we try to create a user', () => {
+  describe('When we try to update a user', () => {
     beforeEach(async () => {
       await mongoTestEmptyDatabase()
+
+      await mongoTestAddUser({
+        _id: idUser1,
+        name: "Usuario 1",
+        email: "usuario1@gmail.com",
+        password: "usuario1",
+        tasks: [
+          dbTask2
+        ]
+      })
     })
 
     describe('With valid fields', () => {
       beforeEach(async () => {
         await mongoTestEmptyDatabase()
+
+        await mongoTestAddUser({
+          _id: idUser1,
+          name: "Usuario 1",
+          email: "usuario1@gmail.com",
+          password: "usuario1",
+          tasks: [
+            dbTask2
+          ]
+        })
       })
-      it('it gets created successfully', async () => {
+      it('it gets updated successfully', async () => {
+
         const result = await request(app).post('/graphql').send({
           query: `mutation {
-                createUser(createUserInput: {name: "prueba", email: "prueba@gmail.com", password: "admin"}) {
+              updateUser(updateUserInput: {_id: "${idUser1.toHexString()}", name: "prueba", email: "prueba@gmail.com"}) {
                   _id
                   name
                   email
@@ -41,10 +64,10 @@ describe('API Integration - Create User - Suite', () => {
         })
 
         expect(result.status).toBe(200)
-        expect(responseAsJSON(result).data.createUser._id).toBeTruthy()
+        expect(responseAsJSON(result).data.updateUser._id).toBeTruthy()
         expect(responseAsJSON(result)).toMatchObject({
           data: {
-            createUser: {
+            updateUser: {
               name: "prueba",
               email: "prueba@gmail.com"
             }
@@ -52,14 +75,13 @@ describe('API Integration - Create User - Suite', () => {
         })
         expect(await mongoTestFindUserByName('prueba')).toMatchObject({
           name: 'prueba',
-          email: 'prueba@gmail.com',
-          password: 'admin'
+          email: 'prueba@gmail.com'
         })
       })
       it("you can't retrieve the password", async () => {
         const result = await request(app).post('/graphql').send({
           query: `mutation {
-                createUser(createUserInput: {name: "prueba", email: "prueba@gmail.com", password: "admin"}) {
+            updateUser(updateUserInput: {_id: "${idUser1.toHexString()}", name: "prueba", email: "prueba@gmail.com"}) {
                   _id
                   name
                   email
@@ -69,10 +91,10 @@ describe('API Integration - Create User - Suite', () => {
         })
 
         expect(result.status).toBe(200)
-        expect(responseAsJSON(result).data.createUser._id).toBeTruthy()
+        expect(responseAsJSON(result).data.updateUser._id).toBeTruthy()
         expect(responseAsJSON(result)).toMatchObject({
           data: {
-            createUser: {
+            updateUser: {
               name: "prueba",
               email: "prueba@gmail.com",
               password: null
@@ -81,76 +103,103 @@ describe('API Integration - Create User - Suite', () => {
         })
         expect(await mongoTestFindUserByName('prueba')).toMatchObject({
           name: 'prueba',
-          email: 'prueba@gmail.com',
-          password: 'admin'
+          email: 'prueba@gmail.com'
         })
       })
     })
-    it('With missing name, it exits errored', async () => {
+    it('With missing name, it gets updated successfully', async () => {
       const result = await request(app).post('/graphql').send({
         query: `mutation { 
-          createUser(createUserInput: {email: "prueba@gmail.com", password: "admin"}) {
+          updateUser(updateUserInput: {_id: "${idUser1.toHexString()}", email: "prueba@gmail.com"}) {
               _id
               name
               email
-              password
+              tasks {
+                _id
+                title
+                description
+                priority
+              }
             }
           }`
       })
 
-      expect(result.status).toBe(400)
-      expect(await mongoTestDBIsEmpty())
+      expect(result.status).toBe(200)
+      expect(responseAsJSON(result).data.updateUser._id).toBeTruthy()
       expect(responseAsJSON(result)).toMatchObject({
-        errors: [
+        data: {
+          updateUser: {
+            name: "Usuario 1",
+            email: "prueba@gmail.com",
+            tasks: [
+              {
+                _id: idTask2.toHexString(),
+                title: "Tarea 2",
+                description: "Esta es la tarea 2",
+                priority: 0
+              }
+            ]
+          }
+        }
+      })
+      expect(await mongoTestFindUserByName('Usuario 1')).toMatchObject({
+        name: 'Usuario 1',
+        email: 'prueba@gmail.com',
+        tasks: [
           {
-            message: "Field \"CreateUserInput.name\" of required type \"String!\" was not provided."
+            _id: idTask2,
+            title: "Tarea 2",
+            description: "Esta es la tarea 2",
+            priority: 0
           }
         ]
       })
-
     })
 
-    it('With missing email, it exits errored', async () => {
+    it('With missing email, it gets updated successfully', async () => {
       const result = await request(app).post('/graphql').send({
         query: `mutation {
-            createUser(createUserInput: {name: "prueba", password: "admin"}) {
+          updateUser(updateUserInput: {_id: "${idUser1.toHexString()}", name: "prueba"}) {
               _id
               name
               email
-              password
+              tasks {
+                _id
+                title
+                description
+                priority
+              }
             }
           }`
       })
 
-      expect(result.status).toBe(400)
-      expect(await mongoTestDBIsEmpty())
+      expect(result.status).toBe(200)
+      expect(responseAsJSON(result).data.updateUser._id).toBeTruthy()
       expect(responseAsJSON(result)).toMatchObject({
-        errors: [
-          {
-            message: "Field \"CreateUserInput.email\" of required type \"String!\" was not provided."
+        data: {
+          updateUser: {
+            name: "prueba",
+            email: "usuario1@gmail.com",
+            tasks: [
+              {
+                _id: idTask2.toHexString(),
+                title: "Tarea 2",
+                description: "Esta es la tarea 2",
+                priority: 0
+              }
+            ]
           }
-        ]
+        }
       })
-    })
-
-    it('With missing password, it exits errored', async () => {
-      const result = await request(app).post('/graphql').send({
-        query: `mutation {
-            createUser(createUserInput: {email: "prueba@gmail.com", name: "prueba"}) {
-              _id
-              name
-              email
-              password
-            }
-          }`
-      })
-
-      expect(result.status).toBe(400)
-      expect(await mongoTestDBIsEmpty())
-      expect(responseAsJSON(result)).toMatchObject({
-        errors: [
+      expect(await mongoTestFindUserByName('prueba')).toMatchObject({
+        name: 'prueba',
+        email: 'usuario1@gmail.com',
+        tasks: [
           {
-            message: "Field \"CreateUserInput.password\" of required type \"String!\" was not provided.",
+            _id: idTask2,
+            title: "Tarea 2",
+            description: "Esta es la tarea 2",
+            priority: 0
           }
         ]
       })
@@ -159,11 +208,10 @@ describe('API Integration - Create User - Suite', () => {
     it('Without filled fields, it exits errored', async () => {
       const result = await request(app).post('/graphql').send({
         query: `mutation {
-            createUser(createUserInput: {}) {
+          updateUser(updateUserInput: {}) {
               _id
               name
               email
-              password
             }
           }`
       })
@@ -173,13 +221,7 @@ describe('API Integration - Create User - Suite', () => {
       expect(responseAsJSON(result)).toMatchObject({
         errors: [
           {
-            message: "Field \"CreateUserInput.name\" of required type \"String!\" was not provided.",
-          },
-          {
-            message: "Field \"CreateUserInput.email\" of required type \"String!\" was not provided.",
-          },
-          {
-            message: "Field \"CreateUserInput.password\" of required type \"String!\" was not provided.",
+            message: "Field \"UpdateUserInput._id\" of required type \"ID!\" was not provided.",
           }
         ]
       })
@@ -188,24 +230,20 @@ describe('API Integration - Create User - Suite', () => {
     it('Without passing UserInput, it exits errored', async () => {
       const result = await request(app).post('/graphql').send({
         query: `mutation {
-            createUser {
+            updateUser {
               _id
               name
               email
-              password
             }
           }`
       })
 
-      expect(result.status).toBe(200)
+      expect(result.status).toBe(400)
       expect(await mongoTestDBIsEmpty())
       expect(responseAsJSON(result)).toMatchObject({
         errors: [
           {
-            message: "User information must be provided",
-            extensions: {
-              code: BAD_USER_INPUT
-            }
+            message: "Field \"updateUser\" argument \"updateUserInput\" of type \"UpdateUserInput!\" is required, but it was not provided.",
           }
         ]
       })
@@ -219,16 +257,25 @@ describe('API Integration - Create User - Suite', () => {
         throw new GraphqlInternalServerError('There was an error while accessing the database')
       })
       await mongoTestEmptyDatabase()
+
+      await mongoTestAddUser({
+        _id: idUser1,
+        name: "Usuario 1",
+        email: "usuario1@gmail.com",
+        password: "usuario1",
+        tasks: [
+          dbTask2
+        ]
+      })
     })
 
     it('And you try to create a new user with valid fields, it exits errored', async () => {
       const result = await request(app).post('/graphql').send({
         query: `mutation {
-            createUser(createUserInput: {name: "prueba", email: "prueba@gmail.com", password: "admin"}) {
+          updateUser(updateUserInput: {_id: "${idUser1.toHexString()}", name: "prueba", email: "prueba@gmail.com"}) {
               _id
               name
               email
-              password
             }
           }`
       })

@@ -1,5 +1,7 @@
 export const BAD_USER_INPUT = 'BAD_USER_INPUT'
 export const INTERNAL_SERVER_ERROR = 'INTERNAL_SERVER_ERROR'
+// TODO: Usar un nombre un poco mas copado 
+export const DB_UNKNOWN_ERROR = 'DB_UNKNOWN_ERROR'
 
 abstract class GraphqlError extends Error {
   extensions: { code: string }
@@ -20,6 +22,12 @@ export class GraphqlBadRequest extends GraphqlError {
 export class GraphqlInternalServerError extends GraphqlError {
   constructor(message: string) {
     super(message, 'GraphqlInternalServerError', INTERNAL_SERVER_ERROR)
+  }
+}
+
+export class GraphqlDBUnknownError extends GraphqlError {
+  constructor() {
+    super('There was an unknown error while hitting the database', 'GraphqlDBUnknownError', DB_UNKNOWN_ERROR)
   }
 }
 
