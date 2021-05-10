@@ -2,7 +2,7 @@ import { Task, User, CreateUserInput, UpdateUserInput } from "../../services/gra
 import { getDBConnection } from "./databaseConfig"
 import { ObjectId } from "mongodb"
 import { UserValidator } from "../../services/validators/userValidator"
-import { GraphqlBadRequest, GraphqlDBUnknownError } from "../../services/validators/customErrors"
+import { GraphqlBadRequest, GraphqlDBUnknownError, GraphQLNotFound } from "../../services/validators/customErrors"
 
 async function getTasksOfUser(userId: string): Promise<Task[]> {
   const db = await getDBConnection()
@@ -33,12 +33,24 @@ async function updateUser(updateUserInput: UpdateUserInput): Promise<User> {
   const db = await getDBConnection()
   const { _id, ...userInput } = updateUserInput
   UserValidator.validateUserOnUpdate(updateUserInput)
-  
-  const result = await db.collection('users').findOneAndUpdate({ _id: new ObjectId(_id) }, { $set: userInput }, {returnOriginal: false})
-  
-  if(!result.ok) throw new GraphqlDBUnknownError()
+
+  const result = await db.collection('users').findOneAndUpdate({ _id: new ObjectId(_id) }, { $set: userInput }, { returnOriginal: false })
+
+  if (!result.ok) throw new GraphqlDBUnknownError()
 
   return result.value
 }
 
-export const UserService = { getTasksOfUser, getListOfUsers, createUser, updateUser }
+async function deleteUser(userId: string): Promise<User> {
+  const db = await getDBConnection()
+
+  const result = await db.collection('users').findOneAndDelete({ _id: new ObjectId(userId) })
+
+  if (!result.ok) throw new GraphqlDBUnknownError()
+  if(!result.value) throw new GraphQLNotFound('Could not find a user with the given id')
+
+  const { _id, ...rest } = result.value
+  return { _id: _id.toHexString(), ...rest }
+}
+
+export const UserService = { getTasksOfUser, getListOfUsers, createUser, updateUser, deleteUser }

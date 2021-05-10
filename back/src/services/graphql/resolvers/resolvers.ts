@@ -24,6 +24,11 @@ const resolvers = {
       await UserService.updateUser(updateUserInput)
     ),
 
+    //TODO: Testear
+    deleteUser: async(_: unknown, { userId }: {userId: string}): Promise<User> => (
+      await UserService.deleteUser(userId)
+    ),
+
     addTask: async (_: unknown, { userId, taskInput }: { userId: string, taskInput: TaskInput }): Promise<Task> => (
       await TaskService.addTask(new ObjectId(userId), taskInput)
     )

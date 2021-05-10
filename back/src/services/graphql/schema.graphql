@@ -54,7 +54,7 @@ type Mutation {
 }
 
 type Mutation {
-    deleteUser(updateUserInput: UpdateUserInput!): User
+    deleteUser(userId: ID!): User
 }
 
 type Mutation {
