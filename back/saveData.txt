@@ -49,3 +49,16 @@ mutation {
     }
   }
 }
+
+mutation {
+  updateTask(updateTaskInput:{
+    _id: "607cce8438d59f61bc78b653"
+    title: "Preparar clase de GraphQL"
+    description: "Primero codear el backend y despues el frontend"
+  }) {
+    _id
+    title
+    description
+    priority
+  }
+}

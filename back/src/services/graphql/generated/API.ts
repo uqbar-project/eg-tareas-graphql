@@ -12,6 +12,12 @@ export type Scalars = {
 };
 
 
+export type CreateTaskInput = {
+  title: Scalars['String'];
+  description: Scalars['String'];
+  priority?: Maybe<Scalars['Int']>;
+};
+
 export type CreateUserInput = {
   name: Scalars['String'];
   email: Scalars['String'];
@@ -31,7 +37,7 @@ export type Mutation = {
 
 export type MutationAddTaskArgs = {
   userId: Scalars['ID'];
-  taskInput: TaskInput;
+  createTaskInput: CreateTaskInput;
 };
 
 
@@ -51,8 +57,7 @@ export type MutationDeleteUserArgs = {
 
 
 export type MutationUpdateTaskArgs = {
-  taskId: Scalars['ID'];
-  taskInput: TaskInput;
+  updateTaskInput: UpdateTaskInput;
 };
 
 
@@ -80,9 +85,10 @@ export type Task = {
   priority?: Maybe<Scalars['Int']>;
 };
 
-export type TaskInput = {
-  title: Scalars['String'];
-  description: Scalars['String'];
+export type UpdateTaskInput = {
+  _id: Scalars['ID'];
+  title?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
   priority?: Maybe<Scalars['Int']>;
 };
 

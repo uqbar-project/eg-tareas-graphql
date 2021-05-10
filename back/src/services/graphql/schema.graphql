@@ -27,9 +27,16 @@ input UpdateUserInput {
     email: String
 }
 
-input TaskInput {
+input CreateTaskInput {
     title: String!
     description: String!
+    priority: Int
+}
+
+input UpdateTaskInput {
+    _id: ID!
+    title: String
+    description: String
     priority: Int
 }
 
@@ -58,11 +65,11 @@ type Mutation {
 }
 
 type Mutation {
-    addTask(userId: ID!, taskInput: TaskInput!): Task
+    addTask(userId: ID!, createTaskInput: CreateTaskInput!): Task
 }
 
 type Mutation {
-    updateTask(taskId:ID!, taskInput: TaskInput!): Task
+    updateTask(updateTaskInput: UpdateTaskInput!): Task
 }
 
 type Mutation {

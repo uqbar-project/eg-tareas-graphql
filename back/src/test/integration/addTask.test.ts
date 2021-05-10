@@ -37,7 +37,7 @@ describe('API Integration - Suite', () => {
       it('with a valid input, it gets written in the db successfully', async () => {
         const result = await request(app).post('/graphql').send({
           query: `mutation {
-            addTask(userId:"${idUser1.toHexString()}", taskInput:{
+            addTask(userId:"${idUser1.toHexString()}", createTaskInput:{
               title: "Tarea 1",
               description: "Esta es la tarea 1",
               priority: 1
@@ -72,7 +72,7 @@ describe('API Integration - Suite', () => {
       it('with a missing title, it exits errored', async () => {
         const result = await request(app).post('/graphql').send({
           query: `mutation {
-            addTask(userId:"${idUser1.toHexString()}", taskInput:{
+            addTask(userId:"${idUser1.toHexString()}", createTaskInput:{
               description: "Esta es la tarea 1",
               priority: 1
             }){
@@ -93,7 +93,7 @@ describe('API Integration - Suite', () => {
         expect(responseAsJSON(result)).toMatchObject({
           errors: [
             {
-              message: "Field \"TaskInput.title\" of required type \"String!\" was not provided."
+              message: "Field \"CreateTaskInput.title\" of required type \"String!\" was not provided."
             }
           ]
         })
@@ -102,7 +102,7 @@ describe('API Integration - Suite', () => {
       it('with a missing description, it exits errored', async () => {
         const result = await request(app).post('/graphql').send({
           query: `mutation {
-            addTask(userId:"${idUser1.toHexString()}", taskInput:{
+            addTask(userId:"${idUser1.toHexString()}", createTaskInput:{
               title: "Tarea 1",
               priority: 1
             }){
@@ -123,7 +123,7 @@ describe('API Integration - Suite', () => {
         expect(responseAsJSON(result)).toMatchObject({
           errors: [
             {
-              message: "Field \"TaskInput.description\" of required type \"String!\" was not provided."
+              message: "Field \"CreateTaskInput.description\" of required type \"String!\" was not provided."
             }
           ]
         })
@@ -132,7 +132,7 @@ describe('API Integration - Suite', () => {
       it('with a missing priority, it asigns one by default', async () => {
         const result = await request(app).post('/graphql').send({
           query: `mutation {
-            addTask(userId:"${idUser1.toHexString()}", taskInput:{
+            addTask(userId:"${idUser1.toHexString()}", createTaskInput:{
               title: "Tarea 1",
               description: "Esta es la tarea 1",
             }){
@@ -167,7 +167,7 @@ describe('API Integration - Suite', () => {
       it('Without filled fields on TaskInput, it exits errored', async () => {
         const result = await request(app).post('/graphql').send({
           query: `mutation {
-              addTask(userId:"${idUser1.toHexString()}", taskInput: {}) {
+              addTask(userId:"${idUser1.toHexString()}", createTaskInput: {}) {
                 _id
                 title
                 description
@@ -185,10 +185,10 @@ describe('API Integration - Suite', () => {
         expect(responseAsJSON(result)).toMatchObject({
           errors: [
             {
-              message: "Field \"TaskInput.title\" of required type \"String!\" was not provided.",
+              message: "Field \"CreateTaskInput.title\" of required type \"String!\" was not provided.",
             },
             {
-              message: "Field \"TaskInput.description\" of required type \"String!\" was not provided.",
+              message: "Field \"CreateTaskInput.description\" of required type \"String!\" was not provided.",
             }
           ]
         })
@@ -215,7 +215,7 @@ describe('API Integration - Suite', () => {
         expect(responseAsJSON(result)).toMatchObject({
           errors: [
             {
-              message: "Field \"addTask\" argument \"taskInput\" of type \"TaskInput!\" is required, but it was not provided.",
+              message: "Field \"addTask\" argument \"createTaskInput\" of type \"CreateTaskInput!\" is required, but it was not provided.",
             }
           ]
         })
@@ -224,7 +224,7 @@ describe('API Integration - Suite', () => {
       it('Without filled fields in UserId, it exits errored', async () => {
         const result = await request(app).post('/graphql').send({
           query: `mutation {
-              addTask(userId:"", taskInput: {
+              addTask(userId:"", createTaskInput: {
                 title: "Tarea 1",
                 description: "Esta es la tarea 1",
                 priority: 1
@@ -255,7 +255,7 @@ describe('API Integration - Suite', () => {
       it('Without passing UserId, it exits errored', async () => {
         const result = await request(app).post('/graphql').send({
           query: `mutation {
-              addTask(taskInput: {
+              addTask(createTaskInput: {
                 title: "Tarea 1",
                 description: "Esta es la tarea 1",
                 priority: 1}

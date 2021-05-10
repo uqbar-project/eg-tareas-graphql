@@ -1,4 +1,4 @@
-import { Task, TaskInput, User, CreateUserInput, UpdateUserInput } from "../generated/API"
+import { Task, UpdateTaskInput, CreateTaskInput, User, CreateUserInput, UpdateUserInput } from "../generated/API"
 import { UserService } from "../../../services/database/user.service"
 import { TaskService } from "../../../services/database/task.service"
 import { ObjectId } from "bson"
@@ -20,17 +20,22 @@ const resolvers = {
       await UserService.createUser(createUserInput)
     ),
 
-    updateUser: async(_: unknown, { updateUserInput }: { updateUserInput: UpdateUserInput}): Promise<User> => (
+    updateUser: async (_: unknown, { updateUserInput }: { updateUserInput: UpdateUserInput }): Promise<User> => (
       await UserService.updateUser(updateUserInput)
     ),
 
-    //TODO: Testear
-    deleteUser: async(_: unknown, { userId }: {userId: string}): Promise<User> => (
+    // TODO: Testear
+    deleteUser: async (_: unknown, { userId }: { userId: string }): Promise<User> => (
       await UserService.deleteUser(userId)
     ),
 
-    addTask: async (_: unknown, { userId, taskInput }: { userId: string, taskInput: TaskInput }): Promise<Task> => (
-      await TaskService.addTask(new ObjectId(userId), taskInput)
+    addTask: async (_: unknown, { userId, createTaskInput }: { userId: string, createTaskInput: CreateTaskInput }): Promise<Task> => (
+      await TaskService.addTask(new ObjectId(userId), createTaskInput)
+    ),
+
+    // TODO: Testear
+    updateTask: async (_: unknown, { updateTaskInput }: { updateTaskInput: UpdateTaskInput }): Promise<Task> => (
+      await TaskService.updateTask(updateTaskInput)
     )
   }
 }

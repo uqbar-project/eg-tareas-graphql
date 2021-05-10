@@ -1,5 +1,6 @@
-import { ObjectId } from "bson"
-import { Task, TaskInput } from "../../services/graphql/generated/API"
+import { ObjectId } from "mongodb"
+import { GraphqlDBUnknownError, GraphQLNotFound } from "../../services/validators/customErrors"
+import { Task, CreateTaskInput, UpdateTaskInput } from "../../services/graphql/generated/API"
 import { TaskValidator } from "../../services/validators/taskValidator"
 import { getDBConnection } from "./databaseConfig"
 
@@ -14,12 +15,12 @@ async function getListOfTasks(): Promise<Task[]> {
   return tasks
 }
 
-async function addTask(_id: ObjectId, taskInput: TaskInput): Promise<Task> {
+async function addTask(_id: ObjectId, createTaskInput: CreateTaskInput): Promise<Task> {
   const db = await getDBConnection()
 
-  TaskValidator.validateTaskOnAdd(taskInput)
-  
-  const newTask = { _id: new ObjectId(), ...taskInput }
+  TaskValidator.validateTaskOnAdd(createTaskInput)
+
+  const newTask = { _id: new ObjectId(), ...createTaskInput }
   newTask.priority = newTask.priority || 1
 
   await db.collection('users').findOneAndUpdate({ _id }, { $push: { tasks: newTask } }, { returnOriginal: false })
@@ -27,4 +28,27 @@ async function addTask(_id: ObjectId, taskInput: TaskInput): Promise<Task> {
   return { ...newTask, _id: newTask._id.toHexString() }
 }
 
-export const TaskService = { getListOfTasks, addTask }
+async function updateTask(updateTaskInput: UpdateTaskInput): Promise<Task> {
+  const db = await getDBConnection()
+  TaskValidator.validateTaskOnUpdate(updateTaskInput)
+
+  const { _id, ...task } = updateTaskInput
+  const idAsObjectId = new ObjectId(_id)
+
+  // La vida con un ORM es mas feliz
+  const fieldsToUpdate = {
+    _id: idAsObjectId.equals,
+    ...(task.title && {'tasks.$.title': task.title}),
+    ...(task.description && {'tasks.$.description': task.description}),
+    ...(task.priority && {'tasks.$.priority': task.priority})
+  }
+
+  const result = await db.collection('users').findOneAndUpdate({ 'tasks._id': idAsObjectId }, { $set: fieldsToUpdate }, { returnOriginal: false })
+
+  if (!result.value) throw new GraphQLNotFound('There is no task with the given id')
+  if (!result.ok) throw new GraphqlDBUnknownError()
+
+  return result.value.tasks.filter((task: { _id: ObjectId }) => task._id.toHexString() === _id)[0]
+}
+
+export const TaskService = { getListOfTasks, addTask, updateTask }
