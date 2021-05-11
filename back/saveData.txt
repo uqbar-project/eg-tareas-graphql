@@ -62,3 +62,12 @@ mutation {
     priority
   }
 }
+
+mutation {
+  deleteTask(taskId:"607cce84a71f90ed516ddeff"){
+    _id
+    title
+    description
+    priority
+  }
+}

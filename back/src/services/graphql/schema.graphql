@@ -73,5 +73,5 @@ type Mutation {
 }
 
 type Mutation {
-    deleteTask(taskId: ID!): ID
+    deleteTask(taskId: ID!): Task
 }

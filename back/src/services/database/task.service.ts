@@ -38,9 +38,9 @@ async function updateTask(updateTaskInput: UpdateTaskInput): Promise<Task> {
   // La vida con un ORM es mas feliz
   const fieldsToUpdate = {
     _id: idAsObjectId.equals,
-    ...(task.title && {'tasks.$.title': task.title}),
-    ...(task.description && {'tasks.$.description': task.description}),
-    ...(task.priority && {'tasks.$.priority': task.priority})
+    ...(task.title && { 'tasks.$.title': task.title }),
+    ...(task.description && { 'tasks.$.description': task.description }),
+    ...(task.priority && { 'tasks.$.priority': task.priority })
   }
 
   const result = await db.collection('users').findOneAndUpdate({ 'tasks._id': idAsObjectId }, { $set: fieldsToUpdate }, { returnOriginal: false })
@@ -51,4 +51,15 @@ async function updateTask(updateTaskInput: UpdateTaskInput): Promise<Task> {
   return result.value.tasks.filter((task: { _id: ObjectId }) => task._id.toHexString() === _id)[0]
 }
 
-export const TaskService = { getListOfTasks, addTask, updateTask }
+async function deleteTask(taskId: string): Promise<Task> {
+  const db = await getDBConnection()
+
+  const result = await db.collection('users').findOneAndUpdate({ 'tasks._id': new ObjectId(taskId) }, { $pull: { 'tasks': { _id: new ObjectId(taskId) } } })
+
+  if (!result.ok) throw new GraphqlDBUnknownError()
+  if (!result.value) throw new GraphQLNotFound('Could not find a task with the given id')
+
+  return result.value.tasks.filter((task: { _id: ObjectId }) => task._id.toHexString() === taskId)[0]
+}
+
+export const TaskService = { getListOfTasks, addTask, updateTask, deleteTask }

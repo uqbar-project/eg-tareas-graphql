@@ -1,7 +1,7 @@
 import { Task, UpdateTaskInput, CreateTaskInput, User, CreateUserInput, UpdateUserInput } from "../generated/API"
 import { UserService } from "../../../services/database/user.service"
 import { TaskService } from "../../../services/database/task.service"
-import { ObjectId } from "bson"
+import { ObjectId } from "mongodb"
 
 
 const resolvers = {
@@ -36,6 +36,11 @@ const resolvers = {
     // TODO: Testear
     updateTask: async (_: unknown, { updateTaskInput }: { updateTaskInput: UpdateTaskInput }): Promise<Task> => (
       await TaskService.updateTask(updateTaskInput)
+    ),
+
+    // TODO: Testear
+    deleteTask: async(_: unknown, {taskId}: {taskId: string}): Promise<Task> => (
+      await TaskService.deleteTask(taskId)
     )
   }
 }
