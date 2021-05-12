@@ -37,12 +37,6 @@ export async function mongoTestFindUserByName(name: string): Promise<User> {
   const db = await getTestDBConnection()
   return db.collection('users').findOne({ name })
 }
-// TODO: Decidir si eliminar
-export async function mongoTestFindTaskByName(title: string): Promise<Task> {
-  const db = await getTestDBConnection()
-  const user = await db.collection('users').findOne({ "tasks.title": title })
-  return user ? user.tasks[0] : null
-}
 
 export async function mongoTestFindTasksOfUserByName(_id: ObjectId, title: string): Promise<Task[]> {
   const db = await getTestDBConnection()
