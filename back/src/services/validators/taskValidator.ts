@@ -13,20 +13,16 @@ function validateTaskOnAdd(createTaskInput: CreateTaskInput): void {
 }
 
 function validateTaskOnUpdate(updateTaskInput: UpdateTaskInput): void {
-  if (updateTaskInput.title) {
-    if (updateTaskInput.title.length > 40) {
-      throw new GraphqlBadRequest('El título debe tener como máximo 40 caracteres')
-    }
+  if (updateTaskInput.title && updateTaskInput.title.length > 40) {
+    throw new GraphqlBadRequest('El título debe tener como máximo 40 caracteres')
   }
 
-  if (updateTaskInput.description) {
-    if (updateTaskInput.description.length > 255) {
-      throw new GraphqlBadRequest('La descripción debe tener como máximo 255 caracteres')
-    }
+  if (updateTaskInput.description && updateTaskInput.description.length > 255) {
+    throw new GraphqlBadRequest('La descripción debe tener como máximo 255 caracteres')
   }
 
   if (!ObjectId.isValid(updateTaskInput._id)) {
-    throw new GraphqlBadRequest('Malformatted user id')
+    throw new GraphqlBadRequest('Malformatted task id')
   }
 }
 

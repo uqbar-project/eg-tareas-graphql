@@ -31,17 +31,12 @@ function validateUserId(userId: string): void {
 
 export function validateUserOnUpdate(updateUserInput: UpdateUserInput): void {
 
-  // TODO: Esta validacion ya la ataja GraphQL pero solo por las dudas la dejo
-  if (updateUserInput.name) {
-    if (updateUserInput.name.length > 80) {
-      throw new GraphqlBadRequest('El nombre debe tener como máximo 80 caracteres')
-    }
+  if (updateUserInput.name && updateUserInput.name.length > 80) {
+    throw new GraphqlBadRequest('El nombre debe tener como máximo 80 caracteres')
   }
 
-  if (updateUserInput.email) {
-    if (updateUserInput.email.length > 62) {
-      throw new GraphqlBadRequest('El nombre debe tener como máximo 62 caracteres')
-    }
+  if (updateUserInput.email && updateUserInput.email.length > 62) {
+    throw new GraphqlBadRequest('El nombre debe tener como máximo 62 caracteres')
   }
 }
 
