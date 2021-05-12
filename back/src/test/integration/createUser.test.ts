@@ -197,15 +197,12 @@ describe('API Integration - Create User - Suite', () => {
           }`
       })
 
-      expect(result.status).toBe(200)
+      expect(result.status).toBe(400)
       expect(await mongoTestDBIsEmpty())
       expect(responseAsJSON(result)).toMatchObject({
         errors: [
           {
-            message: "User information must be provided",
-            extensions: {
-              code: BAD_USER_INPUT
-            }
+            message: 'Field "createUser" argument "createUserInput" of type "CreateUserInput!" is required, but it was not provided.',
           }
         ]
       })

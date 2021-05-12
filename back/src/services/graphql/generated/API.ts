@@ -28,7 +28,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   addTask?: Maybe<Task>;
   createUser?: Maybe<User>;
-  deleteTask?: Maybe<Scalars['ID']>;
+  deleteTask?: Maybe<Task>;
   deleteUser?: Maybe<User>;
   updateTask?: Maybe<Task>;
   updateUser?: Maybe<User>;
@@ -42,7 +42,7 @@ export type MutationAddTaskArgs = {
 
 
 export type MutationCreateUserArgs = {
-  createUserInput?: Maybe<CreateUserInput>;
+  createUserInput: CreateUserInput;
 };
 
 

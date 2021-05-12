@@ -53,7 +53,7 @@ type Query {
 }
 
 type Mutation {
-    createUser(createUserInput: CreateUserInput): User
+    createUser(createUserInput: CreateUserInput!): User
 }
 
 type Mutation {
