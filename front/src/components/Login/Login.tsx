@@ -15,6 +15,7 @@ import {
   InputLabel,
   Typography
 } from '@material-ui/core'
+import { UserService } from '../../services/user.service'
 
 export default function Login() {
 
@@ -22,8 +23,9 @@ export default function Login() {
   const [email, setEmail] = useState('')
   const [showPassword, setShowPassword] = useState(false)
 
-  function handleLogin() {
-    alert('TODO: Tirar un POST y loguear')
+  const handleLogin = async () => {
+    const user = await UserService.loginUser(email, password)
+    console.log(user)
   }
 
   return (
