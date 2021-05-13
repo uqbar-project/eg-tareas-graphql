@@ -1,4 +1,4 @@
-import { Task, UpdateTaskInput, CreateTaskInput, User, CreateUserInput, UpdateUserInput } from "../generated/API"
+import { Task, UpdateTaskInput, CreateTaskInput, User, CreateUserInput, UpdateUserInput, UserCredentialsInput } from "../generated/API"
 import { UserService } from "../../../services/database/user.service"
 import { TaskService } from "../../../services/database/task.service"
 import { ObjectId } from "mongodb"
@@ -16,6 +16,12 @@ const resolvers = {
   },
 
   Mutation: {
+
+    // TODO: Testear
+    loginUser: async (_: unknown, { userCredentialsInput }: { userCredentialsInput: UserCredentialsInput }): Promise<User> => (
+      await UserService.loginUser(userCredentialsInput)
+    ),
+
     createUser: async (_: unknown, { createUserInput }: { createUserInput: CreateUserInput }): Promise<User> => (
       await UserService.createUser(createUserInput)
     ),
@@ -39,7 +45,7 @@ const resolvers = {
     ),
 
     // TODO: Testear
-    deleteTask: async(_: unknown, {taskId}: {taskId: string}): Promise<Task> => (
+    deleteTask: async (_: unknown, { taskId }: { taskId: string }): Promise<Task> => (
       await TaskService.deleteTask(taskId)
     )
   }

@@ -27,6 +27,11 @@ input UpdateUserInput {
     email: String
 }
 
+input UserCredentialsInput{
+    email: String!
+    password: String!
+}
+
 input CreateTaskInput {
     title: String!
     description: String!
@@ -50,6 +55,10 @@ type Query {
 
 type Query {
     getTasksOfUser(userId: ID!): [Task]
+}
+
+type Mutation{
+    loginUser(userCredentialsInput: UserCredentialsInput!): User
 }
 
 type Mutation {

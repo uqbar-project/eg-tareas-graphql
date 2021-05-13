@@ -30,6 +30,7 @@ export type Mutation = {
   createUser?: Maybe<User>;
   deleteTask?: Maybe<Task>;
   deleteUser?: Maybe<User>;
+  loginUser?: Maybe<User>;
   updateTask?: Maybe<Task>;
   updateUser?: Maybe<User>;
 };
@@ -53,6 +54,11 @@ export type MutationDeleteTaskArgs = {
 
 export type MutationDeleteUserArgs = {
   userId: Scalars['ID'];
+};
+
+
+export type MutationLoginUserArgs = {
+  userCredentialsInput: UserCredentialsInput;
 };
 
 
@@ -105,4 +111,9 @@ export type User = {
   email: Scalars['String'];
   password?: Maybe<Scalars['String']>;
   tasks?: Maybe<Array<Maybe<Task>>>;
+};
+
+export type UserCredentialsInput = {
+  email: Scalars['String'];
+  password: Scalars['String'];
 };

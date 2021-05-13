@@ -1,4 +1,4 @@
-import { Task, User, CreateUserInput, UpdateUserInput } from "../../services/graphql/generated/API"
+import { Task, User, CreateUserInput, UpdateUserInput, UserCredentialsInput } from "../../services/graphql/generated/API"
 import { getDBConnection } from "./databaseConfig"
 import { ObjectId } from "mongodb"
 import { UserValidator } from "../../services/validators/userValidator"
@@ -19,6 +19,18 @@ async function getTasksOfUser(userId: string): Promise<Task[]> {
 async function getListOfUsers(): Promise<User[]> {
   const db = await getDBConnection()
   return await db.collection('users').find().toArray()
+}
+
+async function loginUser(userCredentialsInput: UserCredentialsInput): Promise<User> {
+  const db = await getDBConnection()
+  const { email, password } = userCredentialsInput
+  
+  const userData = await db.collection('users').findOne({ email, password })
+
+  if (!userData) throw new GraphQLNotFound('Usuario o contraseña incorrectos')
+
+  console.log(userData)
+  return userData
 }
 
 async function createUser(createUserInput: CreateUserInput): Promise<User> {
@@ -47,10 +59,10 @@ async function deleteUser(userId: string): Promise<User> {
   const result = await db.collection('users').findOneAndDelete({ _id: new ObjectId(userId) })
 
   if (!result.ok) throw new GraphqlDBUnknownError()
-  if(!result.value) throw new GraphQLNotFound('Could not find a user with the given id')
+  if (!result.value) throw new GraphQLNotFound('Could not find a user with the given id')
 
   const { _id, ...rest } = result.value
   return { _id: _id.toHexString(), ...rest }
 }
 
-export const UserService = { getTasksOfUser, getListOfUsers, createUser, updateUser, deleteUser }
+export const UserService = { getTasksOfUser, getListOfUsers, loginUser, createUser, updateUser, deleteUser }
