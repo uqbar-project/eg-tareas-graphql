@@ -28,6 +28,27 @@ export const dbTask3 = {
   priority: 2
 }
 
+export const responseTask1 = {
+  _id: idTask1.toHexString(),
+  title: "Tarea 1",
+  description: "Esta es la tarea 1",
+  priority: 1
+}
+
+export const responseTask2 = {
+  _id: idTask2.toHexString(),
+  title: "Tarea 2",
+  description: "Esta es la tarea 2",
+  priority: 0
+}
+
+export const responseTask3 = {
+  _id: idTask3.toHexString(),
+  title: "Tarea 3",
+  description: "Esta es la tarea 3",
+  priority: 2
+}
+
 export const dbUser1 = {
   _id: idUser1,
   name: "Usuario 1",
@@ -39,6 +60,17 @@ export const dbUser1 = {
   ]
 }
 
+export const responseUser1 = {
+  _id: idUser1.toHexString(),
+  name: "Usuario 1",
+  email: "usuario1@gmail.com",
+  password: null,
+  tasks: [
+    responseTask1,
+    responseTask2
+  ]
+}
+
 export const dbUser2 = {
   _id: idUser2,
   name: "Usuario 2",
@@ -46,5 +78,15 @@ export const dbUser2 = {
   password: "usuario2",
   tasks: [
     dbTask3
+  ]
+}
+
+export const responseUser2 = {
+  _id: idUser2.toHexString(),
+  name: "Usuario 2",
+  email: "usuario2@gmail.com",
+  password: null,
+  tasks: [
+    responseTask3
   ]
 }

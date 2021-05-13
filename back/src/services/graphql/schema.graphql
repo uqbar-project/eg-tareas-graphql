@@ -46,15 +46,19 @@ input UpdateTaskInput {
 }
 
 type Query {
+    getUser(userId: ID!): User
+}
+
+type Query {
     getListOfUsers: [User]
 }
 
 type Query {
-    getListOfTasks: [Task]
+    getTask(taskId: ID!): Task
 }
 
 type Query {
-    getTasksOfUser(userId: ID!): [Task]
+    getListOfTasks: [Task]
 }
 
 type Mutation{

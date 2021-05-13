@@ -75,11 +75,17 @@ export type Query = {
   __typename?: 'Query';
   getListOfTasks?: Maybe<Array<Maybe<Task>>>;
   getListOfUsers?: Maybe<Array<Maybe<User>>>;
-  getTasksOfUser?: Maybe<Array<Maybe<Task>>>;
+  getTask?: Maybe<Task>;
+  getUser?: Maybe<User>;
 };
 
 
-export type QueryGetTasksOfUserArgs = {
+export type QueryGetTaskArgs = {
+  taskId: Scalars['ID'];
+};
+
+
+export type QueryGetUserArgs = {
   userId: Scalars['ID'];
 };
 

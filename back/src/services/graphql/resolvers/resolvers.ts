@@ -12,7 +12,9 @@ const resolvers = {
     // Con fines didacticos
     getListOfTasks: async (): Promise<Task[]> => await TaskService.getListOfTasks(),
 
-    getTasksOfUser: async (_: unknown, { userId }): Promise<Task[]> => await UserService.getTasksOfUser(userId)
+    getUser: async (_: unknown, { userId }): Promise<User> => await UserService.getUser(userId)
+
+    //TODO: Implementar getTask
   },
 
   Mutation: {
