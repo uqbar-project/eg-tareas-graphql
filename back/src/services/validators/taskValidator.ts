@@ -26,4 +26,11 @@ function validateTaskOnUpdate(updateTaskInput: UpdateTaskInput): void {
   }
 }
 
-export const TaskValidator = { validateTaskOnAdd, validateTaskOnUpdate }
+function validateTaskId(userId: string): void {
+  if (!ObjectId.isValid(userId)) {
+    throw new GraphqlBadRequest('Malformatted task id')
+  }
+}
+
+
+export const TaskValidator = { validateTaskOnAdd, validateTaskOnUpdate, validateTaskId }

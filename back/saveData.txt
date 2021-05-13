@@ -1,9 +1,26 @@
 Capaz estaria bueno listar queries que se puedan tirar en graphql, por ahora voy a ir tirando algunas aca
 
 query {
-  getTasksOfUser(userId:"607f63648766a132baed6c33"){
+  getUser(userId:"60804ecbac6741af5df7fc45"){
+    _id
+    name
+    email
+    password
+    tasks{
+      _id
+      title
+      description
+      priority
+    }
+  }
+}
+
+query {
+  getTask(taskId:"607cce8438d59f61bc78b653"){
     _id
     title
+    description
+    priority
   }
 }
 
@@ -69,5 +86,18 @@ mutation {
     title
     description
     priority
+  }
+}
+
+mutation {
+  loginUser(userCredentialsInput:{
+    email:"andres27059934@gmail.com"
+    password:"admin2"
+  }){
+    _id
+    name
+    tasks{
+      _id
+    }
   }
 }

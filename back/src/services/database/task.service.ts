@@ -1,5 +1,5 @@
 import { ObjectId } from "mongodb"
-import { GraphqlDBUnknownError, GraphQLNotFound } from "../../services/validators/customErrors"
+import { GraphqlBadRequest, GraphqlDBUnknownError, GraphQLNotFound } from "../../services/validators/customErrors"
 import { Task, CreateTaskInput, UpdateTaskInput } from "../../services/graphql/generated/API"
 import { TaskValidator } from "../../services/validators/taskValidator"
 import { getDBConnection } from "./databaseConfig"
@@ -13,6 +13,18 @@ async function getListOfTasks(): Promise<Task[]> {
   })
 
   return tasks
+}
+
+async function getTask(taskId: string): Promise<Task> {
+  const db = await getDBConnection()
+
+  TaskValidator.validateTaskId(taskId)
+
+  const userData = await db.collection('users').findOne({ 'tasks._id': new ObjectId(taskId) })
+
+  if (!userData) throw new GraphqlBadRequest('The task with the given id does not exist')
+
+  return userData.tasks.filter(task => task._id.toHexString() === taskId)[0]
 }
 
 async function addTask(_id: ObjectId, createTaskInput: CreateTaskInput): Promise<Task> {
@@ -62,4 +74,4 @@ async function deleteTask(taskId: string): Promise<Task> {
   return result.value.tasks.filter((task: { _id: ObjectId }) => task._id.toHexString() === taskId)[0]
 }
 
-export const TaskService = { getListOfTasks, addTask, updateTask, deleteTask }
+export const TaskService = { getListOfTasks, getTask, addTask, updateTask, deleteTask }
