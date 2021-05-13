@@ -1,7 +1,6 @@
 import { Visibility, VisibilityOff } from '@material-ui/icons'
 import { useState } from 'react'
 import './Login.css'
-
 import {
   Box,
   Button,
@@ -16,16 +15,23 @@ import {
   Typography
 } from '@material-ui/core'
 import { UserService } from '../../services/user.service'
+import { useErrorNotification } from '../../hooks/customHooks'
+import { useHistory } from 'react-router'
 
 export default function Login() {
-
   const [password, setPassword] = useState('')
   const [email, setEmail] = useState('')
   const [showPassword, setShowPassword] = useState(false)
+  const { addErrorNotification } = useErrorNotification()
+  const router = useHistory()
 
   const handleLogin = async () => {
-    const user = await UserService.loginUser(email, password)
-    console.log(user)
+    try {
+      await UserService.loginUser(email, password)
+      router.push('/tareas')
+    } catch (error) {
+      addErrorNotification(error.message, 'error')
+    }
   }
 
   return (
