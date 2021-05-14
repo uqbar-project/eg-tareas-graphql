@@ -31,13 +31,14 @@ export default function ListaTareas() {
 
   return (
     <>
-      <div className="ListaTareas-center">
+      <div className="container-center">
         <h1 style={{ color: 'grey' }}>Lista de Tareas</h1>
       </div>
 
-      <div className="ListaTareas-center">
+      <div className="container-center">
         {tareas.length ?
           <List className="ListaTareas-list">
+            {/*TODO: Agregar una key para eliminar el warning*/}
             {tareas.map((tarea: any, index: number) => (
               <>
                 <ListItem className="ListaTareas-card">
