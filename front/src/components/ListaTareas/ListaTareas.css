@@ -9,14 +9,24 @@
   background-color: #e3d9cc;
 }
 
-.ListaTareas-card{
-  background-color: #e3d9cc; 
+.ListaTareas-card {
+  background-color: #e3d9cc;
 }
 
-.ListaTareas-card:hover{
-  background-color: #e3d7c8; 
+.ListaTareas-card:hover {
+  background-color: #e3d7c8;
 }
 
-.ListaTareas-subtitle{
+.ListaTareas-subtitle {
   color: #596e79;
+}
+
+#ListaTareas-float-button{
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  margin-bottom: 1em;
+  margin-right: 1em;
+  color: white;
+  background-color: #596e79;
 }

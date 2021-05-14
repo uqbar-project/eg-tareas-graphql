@@ -51,21 +51,11 @@ export default function ListaTareas() {
         }
       </div>
 
-      {/* //TODO: Existe una cosa llamada clase CSS... */}
-      <Fab variant="extended" style={{
-        position: 'fixed',
-        bottom: 0,
-        right: 0,
-        marginBottom: 20,
-        marginRight: 20,
-        color: 'white',
-        backgroundColor: '#596e79'
-      }}
+      <Fab variant="extended" id="ListaTareas-float-button"
         onClick={handleCreateClick} >
         <Add style={{ marginRight: "5%" }} />
         Tarea
       </Fab>
-
     </>
   )
 }
