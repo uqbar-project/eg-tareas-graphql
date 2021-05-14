@@ -13,7 +13,7 @@ export default function EditarTarea(props: any) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await TareaService.getTasksById(props.match.params.idTarea)
+        const result = await TareaService.getTaskById(props.match.params.idTarea)
         setTarea(result)
       } catch (error) {
         showErrorNotification(error.message, 'error')
@@ -24,10 +24,14 @@ export default function EditarTarea(props: any) {
     fetchData()
   }, [showErrorNotification, props.match.params.idTarea, router])
 
+  const actualizarTarea = async (tarea: any) => {
+    await TareaService.actualizarTarea(tarea)
+  }
+
   return (
     <>
       {tarea._id ?
-        <CrearTarea tarea={tarea}/>
+        <CrearTarea tarea={tarea} onConfirm={actualizarTarea}/>
         :
         <h1>No se ha encontrado la tarea...</h1>
       }

@@ -1,5 +1,6 @@
 
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
+import { TareaService } from '../services/tareas.service'
 import CrearTarea from './CrearTarea/CrearTarea'
 import EditarTarea from './EditarTarea/EditarTarea'
 import Header from "./Header/Header"
@@ -15,7 +16,7 @@ export default function TareasRoutes() {
         <Route exact path="/login" component={Login} />
           <Route exact path="/tareas" component={ListaTareas} />
           <Route path="/tarea/:idTarea" component={EditarTarea} />
-          <Route exact path="/tarea" component={CrearTarea} />
+          <Route exact path="/tarea" component={() => <CrearTarea onConfirm={TareaService.crearTarea} />} />
           <Redirect to='/login' />
         </Switch>
       </div>
