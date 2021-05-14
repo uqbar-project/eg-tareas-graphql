@@ -17,20 +17,22 @@ import {
 import { UserService } from '../../services/user.service'
 import { useErrorNotification } from '../../hooks/customHooks'
 import { useHistory } from 'react-router'
+import { SessionService } from '../../services/session.service'
 
 export default function Login() {
-  const [password, setPassword] = useState('')
-  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('admin')
+  const [email, setEmail] = useState('andres27059934@gmail.com')
   const [showPassword, setShowPassword] = useState(false)
-  const { addErrorNotification } = useErrorNotification()
+  const showErrorNotification = useErrorNotification()
   const router = useHistory()
 
   const handleLogin = async () => {
     try {
-      await UserService.loginUser(email, password)
+      const user = await UserService.loginUser(email, password)
+      SessionService.setCurrentUser(user)
       router.push('/tareas')
     } catch (error) {
-      addErrorNotification(error.message, 'error')
+      showErrorNotification(error.message, 'error')
     }
   }
 
@@ -41,6 +43,7 @@ export default function Login() {
       alignItems="center"
       minHeight="80vh">
 
+      {/* TODO: Estilizar con css y usar variables para los colores*/}
       <Card style={{
         minWidth: 360,
         maxWidth: 600,

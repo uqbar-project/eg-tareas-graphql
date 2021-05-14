@@ -1,0 +1,22 @@
+.ListaTareas-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ListaTareas-list {
+  width: 80%;
+  background-color: #e3d9cc;
+}
+
+.ListaTareas-card{
+  background-color: #e3d9cc; 
+}
+
+.ListaTareas-card:hover{
+  background-color: #e3d7c8; 
+}
+
+.ListaTareas-subtitle{
+  color: #596e79;
+}
