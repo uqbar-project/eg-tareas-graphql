@@ -1,3 +1,17 @@
-.CrearTarea-input-field{
+#ListaTareas-title {
+  color: grey;
+}
+
+.CrearTarea-input-field {
   width: 80vw;
+}
+
+#CrearTarea-float-button {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  margin-bottom: 1em;
+  margin-left: 1em;
+  color: white;
+  background-color: #b49a7d;
 }

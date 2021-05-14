@@ -54,7 +54,9 @@ export default function ListaTareas() {
         }
       </div>
 
-      <Fab variant="extended" id="ListaTareas-float-button"
+      <Fab
+        id="ListaTareas-float-button"
+        variant="extended"
         onClick={handleCreateClick} >
         <Add style={{ marginRight: "5%" }} />
         Tarea
