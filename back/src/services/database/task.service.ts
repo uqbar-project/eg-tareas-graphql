@@ -52,7 +52,7 @@ async function updateTask(updateTaskInput: UpdateTaskInput): Promise<Task> {
     _id: idAsObjectId.equals,
     ...(task.title && { 'tasks.$.title': task.title }),
     ...(task.description && { 'tasks.$.description': task.description }),
-    ...(task.priority && { 'tasks.$.priority': task.priority })
+    ...(task.priority !== null && { 'tasks.$.priority': task.priority })
   }
 
   const result = await db.collection('users').findOneAndUpdate({ 'tasks._id': idAsObjectId }, { $set: fieldsToUpdate }, { returnOriginal: false })
