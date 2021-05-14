@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import './CrearTarea.css'
 import '../App/App.css'
 
-export default function CrearTarea({ tarea, onConfirm }: { tarea?: any, onConfirm: any }) {
+export default function CrearTarea({ tarea, onConfirm, title }: { tarea?: any, onConfirm: any, title: string }) {
   const [newTarea, setNewTarea] = useState({ _id: '', title: '', description: '', priority: null })
   const showErrorNotification = useErrorNotification()
 
@@ -27,7 +27,7 @@ export default function CrearTarea({ tarea, onConfirm }: { tarea?: any, onConfir
 
   return (
     <div className="container-center" >
-      <h1>Crear Tarea component</h1>
+      <h1>{title}</h1>
 
       {/*TODO: Hacer algo al respecto de estas box*/}
       <Box

@@ -13,10 +13,11 @@ export default function TareasRoutes() {
       <div>
         <Header />
         <Switch>
-        <Route exact path="/login" component={Login} />
+          <Route exact path="/login" component={Login} />
           <Route exact path="/tareas" component={ListaTareas} />
           <Route path="/tarea/:idTarea" component={EditarTarea} />
-          <Route exact path="/tarea" component={() => <CrearTarea onConfirm={TareaService.crearTarea} />} />
+          <Route exact path="/tarea" component={() => <CrearTarea onConfirm={TareaService.crearTarea} title="Crear Tarea" />}
+          />
           <Redirect to='/login' />
         </Switch>
       </div>

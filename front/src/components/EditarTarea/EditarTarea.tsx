@@ -31,7 +31,11 @@ export default function EditarTarea(props: any) {
   return (
     <>
       {tarea._id ?
-        <CrearTarea tarea={tarea} onConfirm={actualizarTarea}/>
+        <CrearTarea
+          tarea={tarea}
+          onConfirm={actualizarTarea}
+          title="Editar Tarea"
+        />
         :
         <h1>No se ha encontrado la tarea...</h1>
       }
