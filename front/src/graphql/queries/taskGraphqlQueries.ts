@@ -15,3 +15,16 @@ export const getTasksOfUserQuery = async (userId: string) => (
     }`
   })
 )
+
+export const getTasksByIdQuery = async (taskId: string) => (
+  apolloClient.query({
+    query: gql`{
+      getTask(taskId: "${taskId}"){
+        _id
+        title
+        description
+        priority
+      }
+    }`
+  })
+)

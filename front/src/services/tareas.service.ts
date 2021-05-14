@@ -1,4 +1,4 @@
-import { getTasksOfUserQuery } from "../graphql/queries/taskGraphqlQueries"
+import { getTasksOfUserQuery, getTasksByIdQuery } from "../graphql/queries/taskGraphqlQueries"
 import { SessionService } from "./session.service"
 
 async function getTasksOfUser() {
@@ -6,4 +6,9 @@ async function getTasksOfUser() {
   return response.data.getUser.tasks
 }
 
-export const TareaService = { getTasksOfUser }
+async function getTasksById(tareaId: string) {
+  const response = await getTasksByIdQuery(tareaId)
+  return response.data.getTask
+}
+
+export const TareaService = { getTasksOfUser, getTasksById }

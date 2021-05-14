@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useHistory } from 'react-router'
 import { useErrorNotification } from '../../hooks/customHooks'
 import { Divider, Fab, List, ListItem } from '@material-ui/core'
 import { Add } from '@material-ui/icons'
@@ -9,9 +10,10 @@ import './ListaTareas.css'
 export default function ListaTareas() {
   const [tareas, setTareas] = useState([])
   const showErrorNotification = useErrorNotification()
+  const router = useHistory()
 
-  const handleCreateClick = (tarea: any) => {
-    alert('TODO: Crear una nueva tarea')
+  const handleCreateClick = () => {
+    router.push('/tarea')
   }
 
   useEffect(() => {

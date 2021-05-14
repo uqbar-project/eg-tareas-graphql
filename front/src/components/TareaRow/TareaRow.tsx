@@ -1,8 +1,10 @@
+import { useHistory } from 'react-router'
 import { Avatar, IconButton, ListItemAvatar, ListItemSecondaryAction, ListItemText } from '@material-ui/core'
 import { Warning, Delete, Edit } from '@material-ui/icons'
 import './TareaRow.css'
 
 export default function TareaRow({ tarea }: { tarea: any }) {
+  const router = useHistory()
 
   const priorityTransformerColor = () => {
     switch (tarea.priority) {
@@ -23,7 +25,7 @@ export default function TareaRow({ tarea }: { tarea: any }) {
   }
 
   const handleEditClick = (tarea: any) => {
-    alert(`TODO: Editar la tarea con id: ${tarea._id}`)
+    router.push(`/tarea/${tarea._id}`)
   }
 
   const handleDeleteClick = (tarea: any) => {
