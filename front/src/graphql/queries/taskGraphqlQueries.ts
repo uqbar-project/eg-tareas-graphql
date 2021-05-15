@@ -13,7 +13,8 @@ export const getTasksOfUserQuery = async (userId: string) => (
           priority
         }
       }
-    }`
+    }`,
+    fetchPolicy: 'network-only'
   })
 )
 
@@ -46,8 +47,9 @@ export const updateTask = async (task: any) => (
   })
 )
 
-export const createTask = async (task: any) => (apolloClient.mutate({
-  mutation: gql`
+export const createTask = async (task: any) => (
+  apolloClient.mutate({
+    mutation: gql`
       mutation {
     addTask(
       userId: "${SessionService.getCurrentUser()._id}",
@@ -56,8 +58,19 @@ export const createTask = async (task: any) => (apolloClient.mutate({
         description: "${task.description}"
         priority: ${task.priority}
       }) {
+        _id
+    }
+  }`
+  })
+)
+
+export const deleteTask = async (taskId: string) => (
+  apolloClient.mutate({
+    mutation: gql`
+      mutation {
+    deleteTask(taskId: "${taskId}") {
       _id
     }
   }`
-})
+  })
 )

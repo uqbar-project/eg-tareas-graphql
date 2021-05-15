@@ -12,10 +12,6 @@ export default function ListaTareas() {
   const showErrorNotification = useErrorNotification()
   const router = useHistory()
 
-  const handleCreateClick = () => {
-    router.push('/tarea')
-  }
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -25,9 +21,21 @@ export default function ListaTareas() {
         showErrorNotification(error.message, 'error')
       }
     }
-
     fetchData()
   }, [showErrorNotification])
+
+  const handleCreateClick = () => {
+    router.push('/tarea')
+  }
+
+  const handleDelete = async (tareaABorrar: any) => {
+    try {
+      await TareaService.deleteTarea(tareaABorrar)
+      setTareas(tareas.filter((tarea: any) => tarea._id !== tareaABorrar._id))
+    } catch (error) {
+      showErrorNotification(error.message, 'error')
+    }
+  }
 
   return (
     <>
@@ -42,7 +50,7 @@ export default function ListaTareas() {
             {tareas.map((tarea: any, index: number) => (
               <>
                 <ListItem className="ListaTareas-card">
-                  <TareaRow tarea={tarea} />
+                  <TareaRow tarea={tarea} onDelete={handleDelete} />
                 </ListItem>
 
                 {/* Para no mostrar el divisor en el ultimo elemento*/}

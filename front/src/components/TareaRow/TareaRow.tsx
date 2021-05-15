@@ -3,7 +3,7 @@ import { Avatar, IconButton, ListItemAvatar, ListItemSecondaryAction, ListItemTe
 import { Warning, Delete, Edit } from '@material-ui/icons'
 import './TareaRow.css'
 
-export default function TareaRow({ tarea }: { tarea: any }) {
+export default function TareaRow({ tarea, onDelete }: { tarea: any, onDelete: (tareaId: string) => void }) {
   const router = useHistory()
 
   const priorityTransformerColor = () => {
@@ -28,9 +28,7 @@ export default function TareaRow({ tarea }: { tarea: any }) {
     router.push(`/tarea/${tarea._id}`)
   }
 
-  const handleDeleteClick = (tarea: any) => {
-    alert(`TODO: Eliminar la tarea con id: ${tarea._id}`)
-  }
+  const handleDeleteClick = (tarea: any) => onDelete(tarea)
 
   return (
     <>

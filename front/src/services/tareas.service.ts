@@ -1,4 +1,4 @@
-import { getTasksOfUserQuery, getTaskByIdQuery, createTask, updateTask } from "../graphql/queries/taskGraphqlQueries"
+import { getTasksOfUserQuery, getTaskByIdQuery, createTask, updateTask, deleteTask } from "../graphql/queries/taskGraphqlQueries"
 import { SessionService } from "./session.service"
 
 async function getTasksOfUser() {
@@ -11,13 +11,16 @@ async function getTaskById(tareaId: string) {
   return response.data.getTask
 }
 
-async function actualizarTarea(tarea: any){
-  const a = await updateTask(tarea)
-  console.log(a)
+async function crearTarea(tarea: any): Promise<void> {
+  await createTask(tarea)
 }
 
-async function crearTarea(tarea: any){
-  createTask(tarea)
+async function actualizarTarea(tarea: any): Promise<void> {
+  await updateTask(tarea)
 }
 
-export const TareaService = { getTasksOfUser, getTaskById, actualizarTarea, crearTarea }
+async function deleteTarea(tarea: any): Promise<void> {
+  await deleteTask(tarea._id)
+}
+
+export const TareaService = { getTasksOfUser, getTaskById, crearTarea, actualizarTarea, deleteTarea }

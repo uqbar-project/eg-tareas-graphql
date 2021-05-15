@@ -20,20 +20,16 @@ export default function EditarTarea(props: any) {
         router.push('/tareas')
       }
     }
-
+    
     fetchData()
   }, [showErrorNotification, props.match.params.idTarea, router])
-
-  const actualizarTarea = async (tarea: any) => {
-    await TareaService.actualizarTarea(tarea)
-  }
-
+  
   return (
     <>
       {tarea._id ?
         <CrearTarea
           tarea={tarea}
-          onConfirm={actualizarTarea}
+          onConfirm={TareaService.actualizarTarea}
           title="Editar Tarea"
         />
         :
