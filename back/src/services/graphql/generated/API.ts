@@ -15,7 +15,7 @@ export type Scalars = {
 export type CreateTaskInput = {
   title: Scalars['String'];
   description: Scalars['String'];
-  priority?: Maybe<Scalars['Int']>;
+  priority: Scalars['Int'];
 };
 
 export type CreateUserInput = {

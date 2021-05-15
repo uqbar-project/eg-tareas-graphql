@@ -129,7 +129,7 @@ describe('API Integration - Suite', () => {
         })
       })
 
-      it('with a missing priority, it asigns one by default', async () => {
+      it('with a missing priority, it exits errored', async () => {
         const result = await request(app).post('/graphql').send({
           query: `mutation {
             addTask(userId:"${idUser1.toHexString()}", createTaskInput:{
@@ -144,19 +144,16 @@ describe('API Integration - Suite', () => {
           }`
         })
 
-        expect(result.status).toBe(200)
+        expect(result.status).toBe(400)
         expect(responseAsJSON(result)).toMatchObject({
-          data: {
-            addTask:
+          errors: [
             {
-              title: "Tarea 1",
-              description: "Esta es la tarea 1",
-              priority: 1
+              message: "Field \"CreateTaskInput.priority\" of required type \"Int!\" was not provided."
             }
-          }
+          ]
         })
         expect(await mongoTestFindTasksOfUserByName(idUser1, 'Tarea 1')).toEqual(
-          expect.arrayContaining([
+          expect.not.arrayContaining([
             expect.objectContaining({
               title: 'Tarea 1',
               description: "Esta es la tarea 1",
@@ -185,10 +182,13 @@ describe('API Integration - Suite', () => {
         expect(responseAsJSON(result)).toMatchObject({
           errors: [
             {
-              message: "Field \"CreateTaskInput.title\" of required type \"String!\" was not provided.",
+              message: "Field \"CreateTaskInput.title\" of required type \"String!\" was not provided."
             },
             {
-              message: "Field \"CreateTaskInput.description\" of required type \"String!\" was not provided.",
+              message: "Field \"CreateTaskInput.description\" of required type \"String!\" was not provided."
+            },
+            {
+              message: "Field \"CreateTaskInput.priority\" of required type \"Int!\" was not provided."
             }
           ]
         })

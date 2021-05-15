@@ -3,6 +3,13 @@ import { CreateTaskInput, UpdateTaskInput } from "../graphql/generated/API"
 import { GraphqlBadRequest } from "./customErrors"
 
 function validateTaskOnAdd(createTaskInput: CreateTaskInput): void {
+  
+  //TODO: Crear un test
+  if(createTaskInput.title === '') throw new GraphqlBadRequest('La tarea debe tener un título')
+
+  //TODO: Crear un test
+  if(createTaskInput.description === '') throw new GraphqlBadRequest('La tarea debe tener una descripción')
+  
   if (createTaskInput.title.length > 40) {
     throw new GraphqlBadRequest('El título debe tener como máximo 40 caracteres')
   }

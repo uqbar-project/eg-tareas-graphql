@@ -7,7 +7,7 @@ import './CrearTarea.css'
 import '../App/App.css'
 
 export default function CrearTarea({ tarea, onConfirm, title }: { tarea?: any, onConfirm: (tarea: any) => Promise<void>, title: string }) {
-  const [newTarea, setNewTarea] = useState({ _id: '', title: '', description: '', priority: null })
+  const [newTarea, setNewTarea] = useState({ _id: '', title: '', description: '', priority: 0 })
   const showErrorNotification = useErrorNotification()
   const router = useHistory()
 
@@ -83,7 +83,7 @@ export default function CrearTarea({ tarea, onConfirm, title }: { tarea?: any, o
           <TextField
             className="CrearTarea-input-field"
             select
-            value={newTarea.priority !== null ? newTarea.priority : ''}
+            value={newTarea.priority}
             onChange={(e: any) => handleChangeTarea(+e.target.value, 'priority')}
             label="Prioridad"
             variant="filled"

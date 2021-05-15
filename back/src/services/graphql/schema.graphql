@@ -35,7 +35,7 @@ input UserCredentialsInput{
 input CreateTaskInput {
     title: String!
     description: String!
-    priority: Int
+    priority: Int!
 }
 
 input UpdateTaskInput {

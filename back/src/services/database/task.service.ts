@@ -33,7 +33,6 @@ async function addTask(_id: ObjectId, createTaskInput: CreateTaskInput): Promise
   TaskValidator.validateTaskOnAdd(createTaskInput)
 
   const newTask = { _id: new ObjectId(), ...createTaskInput }
-  newTask.priority = newTask.priority || 1
 
   await db.collection('users').findOneAndUpdate({ _id }, { $push: { tasks: newTask } }, { returnOriginal: false })
 
