@@ -6,7 +6,7 @@ import logo from './logo.svg'
 import './Header.css'
 
 export default function Header() {
-  const { setCurrentUser, isLoggedIn } = useSessionService()
+  const { getCurrentUser, setCurrentUser, isLoggedIn } = useSessionService()
   const router = useHistory()
 
   // TODO: Exponer un resetUser
@@ -15,13 +15,19 @@ export default function Header() {
     router.push('/login')
   }
 
+  const goToPerfil = () => {
+    router.push(`/perfil/${getCurrentUser()._id}`)
+  }
+
   return (
     <header className="Header-bar">
       <img src={logo} className="App-logo" alt="logo" />
       <h1 className="Header-title">Tareas</h1>
       {isLoggedIn() &&
         <div className="Header-actions">
-          <Button style={{ color: 'white' }}>Perfil</Button>
+          <Button 
+          style={{ color: 'white' }}
+          onClick={goToPerfil}>Perfil</Button>
           <IconButton
             style={{ marginLeft: 10, color: 'white' }}
             onClick={handleLogout}>

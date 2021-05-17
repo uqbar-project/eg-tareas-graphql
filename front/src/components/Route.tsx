@@ -6,6 +6,7 @@ import EditarTarea from './EditarTarea/EditarTarea'
 import Header from "./Header/Header"
 import ListaTareas from './ListaTareas/ListaTareas'
 import Login from './Login/Login'
+import Perfil from './Perfil/Perfil'
 
 export default function TareasRoutes() {
   return (
@@ -15,6 +16,7 @@ export default function TareasRoutes() {
         <Switch>
           <Route exact path="/login" component={Login} />
           <Route exact path="/tareas" component={ListaTareas} />
+          <Route exact path="/perfil/:idUsuario" component={Perfil} />
           <Route path="/tarea/:idTarea" component={EditarTarea} />
           <Route exact path="/tarea" component={() => <CrearTarea onConfirm={TareaService.crearTarea} title="Crear Tarea" />}
           />
