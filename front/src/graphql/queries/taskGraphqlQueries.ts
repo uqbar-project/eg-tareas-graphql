@@ -1,5 +1,4 @@
 import { gql } from '@apollo/client'
-import { SessionService } from '../../services/session.service'
 import apolloClient from '../graphqlClient.service'
 
 export const getTasksOfUserQuery = async (userId: string) => (
@@ -47,12 +46,12 @@ export const updateTask = async (task: any) => (
   })
 )
 
-export const createTask = async (task: any) => (
+export const createTask = async (task: any, userId: string) => (
   apolloClient.mutate({
     mutation: gql`
       mutation {
     addTask(
-      userId: "${SessionService.getCurrentUser()._id}",
+      userId: "${userId}",
       createTaskInput: {
         title: "${task.title}"
         description: "${task.description}"

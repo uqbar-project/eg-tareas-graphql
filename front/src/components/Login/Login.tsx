@@ -15,21 +15,22 @@ import {
   Typography
 } from '@material-ui/core'
 import { UserService } from '../../services/user.service'
-import { useErrorNotification } from '../../hooks/customHooks'
+import { useErrorNotification, useSessionService } from '../../hooks/customHooks'
 import { useHistory } from 'react-router'
-import { SessionService } from '../../services/session.service'
 
 export default function Login() {
   const [password, setPassword] = useState('admin')
   const [email, setEmail] = useState('andres27059934@gmail.com')
   const [showPassword, setShowPassword] = useState(false)
   const showErrorNotification = useErrorNotification()
+  const { setCurrentUser } = useSessionService()
   const router = useHistory()
 
   const handleLogin = async () => {
     try {
       const user = await UserService.loginUser(email, password)
-      SessionService.setCurrentUser(user)
+      setCurrentUser(user)
+
       router.push('/tareas')
     } catch (error) {
       showErrorNotification(error.message, 'error')

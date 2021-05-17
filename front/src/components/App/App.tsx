@@ -1,11 +1,14 @@
 import NotificationProvider from '../../providers/NotificationProvider'
+import SessionProvider from '../../providers/SessionProvider'
 import TareasRoutes from '../Route'
 import './App.css'
 
 export default function App() {
   return (
-    <NotificationProvider>
-      <TareasRoutes />
-    </NotificationProvider>
+    <SessionProvider>
+      <NotificationProvider>
+        <TareasRoutes />
+      </NotificationProvider>
+    </SessionProvider>
   )
 }

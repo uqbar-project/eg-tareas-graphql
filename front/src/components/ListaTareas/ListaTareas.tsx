@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useHistory } from 'react-router'
-import { useErrorNotification } from '../../hooks/customHooks'
+import { useErrorNotification, useSessionService } from '../../hooks/customHooks'
 import { Divider, Fab, List, ListItem } from '@material-ui/core'
 import { Add } from '@material-ui/icons'
 import TareaRow from '../TareaRow/TareaRow'
@@ -10,19 +10,20 @@ import './ListaTareas.css'
 export default function ListaTareas() {
   const [tareas, setTareas] = useState([])
   const showErrorNotification = useErrorNotification()
+  const { getCurrentUser } = useSessionService()
   const router = useHistory()
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await TareaService.getTasksOfUser()
+        const result = await TareaService.getTasksOfUser(getCurrentUser()._id)
         setTareas(result)
       } catch (error) {
         showErrorNotification(error.message, 'error')
       }
     }
     fetchData()
-  }, [showErrorNotification])
+  }, [showErrorNotification, getCurrentUser])
 
   const handleCreateClick = () => {
     router.push('/tarea')

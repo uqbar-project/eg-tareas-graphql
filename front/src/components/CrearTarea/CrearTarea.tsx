@@ -1,14 +1,15 @@
 import { useState, useEffect } from 'react'
 import { useHistory } from 'react-router'
-import { useErrorNotification } from '../../hooks/customHooks'
+import { useErrorNotification, useSessionService } from '../../hooks/customHooks'
 import { Box, Button, Fab, FilledInput, FormControl, InputLabel, MenuItem, TextField } from '@material-ui/core'
 import { ArrowBack } from '@material-ui/icons'
 import './CrearTarea.css'
 import '../App/App.css'
 
-export default function CrearTarea({ tarea, onConfirm, title }: { tarea?: any, onConfirm: (tarea: any) => Promise<void>, title: string }) {
+export default function CrearTarea({ tarea, onConfirm, title }: { tarea?: any, onConfirm: (tarea: any, userId: string) => Promise<void>, title: string }) {
   const [newTarea, setNewTarea] = useState({ _id: '', title: '', description: '', priority: 0 })
   const showErrorNotification = useErrorNotification()
+  const { getCurrentUser } = useSessionService()
   const router = useHistory()
 
   useEffect(() => {
@@ -22,7 +23,7 @@ export default function CrearTarea({ tarea, onConfirm, title }: { tarea?: any, o
   const handleConfirm = async () => {
     try {
       // TODO: Validar el input
-      await onConfirm(newTarea)
+      await onConfirm(newTarea, getCurrentUser()._id)
       router.push('/tareas')
     } catch (error) {
       showErrorNotification(error.message, 'error')
