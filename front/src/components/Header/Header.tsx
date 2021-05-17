@@ -1,16 +1,34 @@
+import { useHistory } from 'react-router'
 import { useSessionService } from '../../hooks/customHooks'
+import { Button, IconButton } from '@material-ui/core'
+import { ExitToApp } from '@material-ui/icons'
 import logo from './logo.svg'
 import './Header.css'
 
 export default function Header() {
+  const { setCurrentUser, isLoggedIn } = useSessionService()
+  const router = useHistory()
 
-  const { isLoggedIn } = useSessionService()
+  // TODO: Exponer un resetUser
+  const handleLogout = () => {
+    setCurrentUser({ _id: '' })
+    router.push('/login')
+  }
 
   return (
     <header className="Header-bar">
       <img src={logo} className="App-logo" alt="logo" />
       <h1 className="Header-title">Tareas</h1>
-      {isLoggedIn() && <h2> TODO: botonera de perfil y logout</h2>}
+      {isLoggedIn() &&
+        <div className="Header-actions">
+          <Button style={{ color: 'white' }}>Perfil</Button>
+          <IconButton
+            style={{ marginLeft: 10, color: 'white' }}
+            onClick={handleLogout}>
+            <ExitToApp />
+          </IconButton>
+        </div>
+      }
     </header>
   )
 }
