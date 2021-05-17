@@ -11,7 +11,19 @@ export const loginUserQuery = async (email: string, password: string) => (
         }){
           _id
           name
-          email
+      }
+    }`
+  })
+)
+
+export const getUserQuery = async (userId: string) => (
+  apolloClient.query({
+    query: gql` 
+    query {
+      getUser(userId: "${userId}"){
+        _id
+        name
+        email
       }
     }`
   })

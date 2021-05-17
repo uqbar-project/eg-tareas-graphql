@@ -19,6 +19,8 @@ export default function Header() {
     router.push(`/perfil/${getCurrentUser()._id}`)
   }
 
+  // TODO: Agregar nombre al header para contar casos de uso
+
   return (
     <header className="Header-bar">
       <img src={logo} className="App-logo" alt="logo" />
