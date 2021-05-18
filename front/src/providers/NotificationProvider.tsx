@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react'
 import SweetAlert, { SweetAlertIcon } from 'sweetalert2'
+import { NOTIFICATION_TYPE } from '../hooks/customHooks'
 
-// TODO: el type podria ser un enum
 export const NotificationContext = React.createContext({
-  addErrorNotification: (message: string, type: string) => { },
+  addErrorNotification: (message: string, type: NOTIFICATION_TYPE) => { },
 })
 
 export default function NotificationProvider({ children }: { children: any }) {

@@ -15,7 +15,7 @@ import {
   Typography
 } from '@material-ui/core'
 import { UserService } from '../../services/user.service'
-import { useErrorNotification, useSessionService } from '../../hooks/customHooks'
+import { NOTIFICATION_TYPE, useErrorNotification, useSessionService } from '../../hooks/customHooks'
 import { useHistory } from 'react-router'
 
 export default function Login() {
@@ -33,7 +33,7 @@ export default function Login() {
 
       router.push('/tareas')
     } catch (error) {
-      showErrorNotification(error.message, 'error')
+      showErrorNotification(error.message, NOTIFICATION_TYPE.error)
     }
   }
 

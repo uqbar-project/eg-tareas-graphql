@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useHistory } from 'react-router'
-import { useErrorNotification, useSessionService } from '../../hooks/customHooks'
+import { NOTIFICATION_TYPE, useErrorNotification, useSessionService } from '../../hooks/customHooks'
 import { Box, Button, Fab, FilledInput, FormControl, InputLabel, MenuItem, TextField } from '@material-ui/core'
 import { ArrowBack } from '@material-ui/icons'
 import './CrearTarea.css'
@@ -26,7 +26,7 @@ export default function CrearTarea({ tarea, onConfirm, title }: { tarea?: any, o
       await onConfirm(newTarea, getCurrentUser()._id)
       router.push('/tareas')
     } catch (error) {
-      showErrorNotification(error.message, 'error')
+      showErrorNotification(error.message, NOTIFICATION_TYPE.error)
     }
   }
 

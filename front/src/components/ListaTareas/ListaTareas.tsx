@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useHistory } from 'react-router'
-import { useErrorNotification, useSessionService } from '../../hooks/customHooks'
+import { NOTIFICATION_TYPE, useErrorNotification, useSessionService } from '../../hooks/customHooks'
 import { Divider, Fab, List, ListItem } from '@material-ui/core'
 import { Add } from '@material-ui/icons'
 import TareaRow from '../TareaRow/TareaRow'
@@ -19,7 +19,7 @@ export default function ListaTareas() {
         const result = await TareaService.getTasksOfUser(getCurrentUser()._id)
         setTareas(result)
       } catch (error) {
-        showErrorNotification(error.message, 'error')
+        showErrorNotification(error.message, NOTIFICATION_TYPE.error)
       }
     }
     fetchData()
@@ -34,7 +34,7 @@ export default function ListaTareas() {
       await TareaService.deleteTarea(tareaABorrar)
       setTareas(tareas.filter((tarea: any) => tarea._id !== tareaABorrar._id))
     } catch (error) {
-      showErrorNotification(error.message, 'error')
+      showErrorNotification(error.message, NOTIFICATION_TYPE.error)
     }
   }
 

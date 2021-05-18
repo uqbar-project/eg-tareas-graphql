@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useHistory } from 'react-router'
-import { useErrorNotification, useSessionService } from '../../hooks/customHooks'
+import { NOTIFICATION_TYPE, useErrorNotification, useSessionService } from '../../hooks/customHooks'
 import { Box, Button, Fab, FilledInput, FormControl, InputLabel } from '@material-ui/core'
 import { ArrowBack } from '@material-ui/icons'
 import { UserService } from '../../services/user.service'
@@ -19,7 +19,7 @@ export default function Perfil(props: any) {
         const result = await UserService.getFullUserProfile(props.match.params.idUsuario)
         setNewUsuario(result)
       } catch (error) {
-        showErrorNotification(error.message, 'error')
+        showErrorNotification(error.message, NOTIFICATION_TYPE.error)
       }
     }
 
@@ -40,7 +40,7 @@ export default function Perfil(props: any) {
       setCurrentUser(newUsuario)
       router.push('/tareas')
     } catch (error) {
-      showErrorNotification(error.message, 'error')
+      showErrorNotification(error.message, NOTIFICATION_TYPE.error)
     }
   }
 

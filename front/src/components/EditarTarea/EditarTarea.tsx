@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useHistory } from 'react-router'
-import { useErrorNotification } from '../../hooks/customHooks'
+import { NOTIFICATION_TYPE, useErrorNotification } from '../../hooks/customHooks'
 import { TareaService } from '../../services/tareas.service'
 import CrearTarea from '../CrearTarea/CrearTarea'
 import './EditarTarea.css'
@@ -16,7 +16,7 @@ export default function EditarTarea(props: any) {
         const result = await TareaService.getTaskById(props.match.params.idTarea)
         setTarea(result)
       } catch (error) {
-        showErrorNotification(error.message, 'error')
+        showErrorNotification(error.message, NOTIFICATION_TYPE.error)
         router.push('/tareas')
       }
     }
