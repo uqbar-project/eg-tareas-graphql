@@ -32,9 +32,17 @@ export default function Perfil(props: any) {
     setNewUsuario({ ...newUsuario, [field]: newValue })
   }
 
+  const validarInputs = () => {
+    if (newUsuario.name === '') throw new Error('Debe ingresar un nombre')
+    if (newUsuario.name.length > 80) throw new Error('El nombre debe tener como máximo 80 caracteres')
+
+    if (newUsuario.email === '') throw new Error('Debe ingresar un email')
+    if (newUsuario.email.length > 62) throw new Error('El email debe tener como máximo 62 caracteres')
+  }
+
   const handleConfirm = () => {
     try {
-      //TODO: Validar inputs
+      validarInputs()
 
       UserService.updateUser(newUsuario)
       setCurrentUser(newUsuario)

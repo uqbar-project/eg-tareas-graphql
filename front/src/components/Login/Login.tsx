@@ -26,8 +26,15 @@ export default function Login() {
   const { setCurrentUser } = useSessionService()
   const router = useHistory()
 
+  const validarInputs = () => {
+    if (email === '') throw new Error('Debe ingresar un email')
+    if (password === '') throw new Error('Debe ingresar una contraseña')
+  }
+
   const handleLogin = async () => {
     try {
+      validarInputs()
+
       const user = await UserService.loginUser(email, password)
       setCurrentUser(user)
 

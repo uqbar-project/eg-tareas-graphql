@@ -20,9 +20,18 @@ export default function CrearTarea({ tarea, onConfirm, title }: { tarea?: any, o
     setNewTarea({ ...newTarea, [field]: newValue })
   }
 
+  const validarInputs = () => {
+    if(newTarea.title === '') throw new Error('La tarea debe tener un título')
+    if(newTarea.title.length > 40) throw new Error ('El título debe tener como máximo 40 caracteres')
+
+    if(newTarea.description === '') throw new Error('La tarea debe tener una descripción')
+    if(newTarea.description.length > 255) throw new Error ('La descripción debe tener como máximo 255 caracteres')
+  }
+
   const handleConfirm = async () => {
     try {
-      // TODO: Validar el input
+      validarInputs()
+
       await onConfirm(newTarea, getCurrentUser()._id)
       router.push('/tareas')
     } catch (error) {
