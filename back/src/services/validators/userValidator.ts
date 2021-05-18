@@ -15,7 +15,7 @@ function validateUserOnCreate(createUserInput: CreateUserInput): void {
   }
 
   if (createUserInput.email.length > 62) {
-    throw new GraphqlBadRequest('El nombre debe tener como máximo 62 caracteres')
+    throw new GraphqlBadRequest('El email debe tener como máximo 62 caracteres')
   }
 
   if (createUserInput.password.length > 128) {
