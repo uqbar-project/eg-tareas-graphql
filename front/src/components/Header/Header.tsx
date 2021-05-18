@@ -20,21 +20,21 @@ export default function Header() {
 
   return (
     <header className="Header-bar">
-      <img src={logo} className="App-logo" alt="logo" />
-      <h1 className="Header-title">Tareas</h1>
-      {isLoggedIn() &&
-        <div className="Header-actions">
-          <p className="Header-user-name">{getCurrentUser().name.toUpperCase()}</p>
-          <Button 
-          style={{ color: 'white' }}
-          onClick={goToPerfil}>Perfil</Button>
-          <IconButton
-            style={{ marginLeft: 10, color: 'white' }}
-            onClick={handleLogout}>
-            <ExitToApp />
-          </IconButton>
-        </div>
-      }
+        <img src={logo} className="App-logo" alt="logo" />
+        <h1 className="Header-title">Tareas</h1>
+        {isLoggedIn() &&
+          <div className="Header-actions">
+            <p className="Header-user-name">{getCurrentUser().name.toUpperCase()}</p>
+            <Button
+              style={{ color: 'white' }}
+              onClick={goToPerfil}>Perfil</Button>
+            <IconButton
+              style={{ marginLeft: 10, color: 'white' }}
+              onClick={handleLogout}>
+              <ExitToApp />
+            </IconButton>
+          </div>
+        }
     </header>
   )
 }
