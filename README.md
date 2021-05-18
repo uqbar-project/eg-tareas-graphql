@@ -1,4 +1,5 @@
 # Tareas GraphQL
 
 ### Estado
-[![Build Status](https://travis-ci.com/andylarquy/tareas-graphql.svg?branch=master)](https://travis-ci.com/andylarquy/tareas-graphql)
+[![Build Status](https://travis-ci.com/uqbar-project/eg-tareas-graphql.svg?branch=main)](https://travis-ci.com/uqbar-project/eg-tareas-graphql)
+
