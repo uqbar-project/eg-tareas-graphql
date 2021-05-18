@@ -1,4 +1,4 @@
-import { loginUserQuery, getUserQuery } from "../graphql/queries/loginGraphqlQueries"
+import { loginUserQuery, getUserQuery, updateUserQuery } from "../graphql/queries/loginGraphqlQueries"
 
 async function loginUser(email: string, password: string) {
   const response = await loginUserQuery(email, password)
@@ -10,4 +10,9 @@ async function getFullUserProfile(userId: string){
   return response.data.getUser
 }
 
-export const UserService = { loginUser, getFullUserProfile }
+async function updateUser(user: any){
+  const response = await updateUserQuery(user)
+  return response.data.updateUser
+}
+
+export const UserService = { loginUser, getFullUserProfile, updateUser }

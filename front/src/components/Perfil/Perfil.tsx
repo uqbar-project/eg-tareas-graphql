@@ -1,24 +1,30 @@
 import { useEffect, useState } from 'react'
 import { useHistory } from 'react-router'
+import { useErrorNotification, useSessionService } from '../../hooks/customHooks'
 import { Box, Button, Fab, FilledInput, FormControl, InputLabel } from '@material-ui/core'
 import { ArrowBack } from '@material-ui/icons'
-import './Perfil.css'
 import { UserService } from '../../services/user.service'
+import './Perfil.css'
 
 //TODO: Hacer un editar perfil y un ver perfil para evitar editar perfiles ajenos
-
 export default function Perfil(props: any) {
-  const router = useHistory()
   const [newUsuario, setNewUsuario] = useState({ _id: '', name: '', email: '' })
+  const { setCurrentUser } = useSessionService()
+  const showErrorNotification = useErrorNotification()
+  const router = useHistory()
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await UserService.getFullUserProfile(props.match.params.idUsuario)
-      setNewUsuario(result)
+      try {
+        const result = await UserService.getFullUserProfile(props.match.params.idUsuario)
+        setNewUsuario(result)
+      } catch (error) {
+        showErrorNotification(error.message, 'error')
+      }
     }
 
     fetchData()
-  }, [props.match.params.idUsuario])
+  }, [props.match.params.idUsuario, showErrorNotification])
 
   const handleBackClick = () => router.push('/tareas')
 
@@ -26,7 +32,17 @@ export default function Perfil(props: any) {
     setNewUsuario({ ...newUsuario, [field]: newValue })
   }
 
-  const handleConfirm = () => alert('TODO: Manejar esta request')
+  const handleConfirm = () => {
+    try {
+      //TODO: Validar inputs
+
+      UserService.updateUser(newUsuario)
+      setCurrentUser(newUsuario)
+      router.push('/tareas')
+    } catch (error) {
+      showErrorNotification(error.message, 'error')
+    }
+  }
 
   return (
     <div className="container-center" >

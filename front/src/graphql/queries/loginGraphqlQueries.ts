@@ -28,3 +28,18 @@ export const getUserQuery = async (userId: string) => (
     }`
   })
 )
+
+export const updateUserQuery = async ({ _id, email, name }: any) => (
+  apolloClient.mutate({
+    mutation: gql`
+      mutation {
+        updateUser(updateUserInput:{
+          _id: "${_id}"
+          email:"${email}"
+          name:"${name}"
+        }){
+          _id
+      }
+    }`
+  })
+)
