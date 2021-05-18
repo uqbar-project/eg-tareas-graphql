@@ -19,8 +19,8 @@ import { NOTIFICATION_TYPE, useErrorNotification, useSessionService } from '../.
 import { useHistory } from 'react-router'
 
 export default function Login() {
-  const [password, setPassword] = useState('')
   const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const showErrorNotification = useErrorNotification()
   const { setCurrentUser } = useSessionService()

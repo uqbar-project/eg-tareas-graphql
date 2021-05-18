@@ -19,14 +19,13 @@ export default function Header() {
     router.push(`/perfil/${getCurrentUser()._id}`)
   }
 
-  // TODO: Agregar nombre al header para contar casos de uso
-
   return (
     <header className="Header-bar">
       <img src={logo} className="App-logo" alt="logo" />
       <h1 className="Header-title">Tareas</h1>
       {isLoggedIn() &&
         <div className="Header-actions">
+          <p className="Header-user-name">{getCurrentUser().name.toUpperCase()}</p>
           <Button 
           style={{ color: 'white' }}
           onClick={goToPerfil}>Perfil</Button>

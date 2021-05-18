@@ -22,3 +22,10 @@
   justify-content: center;
   align-items: center;
 }
+
+.Header-user-name{
+  color: white;
+  margin-right: 1em;
+  font-weight: 500;
+  font-size: 0.9em;
+}
