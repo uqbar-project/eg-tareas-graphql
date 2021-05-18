@@ -16,6 +16,6 @@ export function useErrorNotification() {
 }
 
 export function useSessionService() {
-  const { setCurrentUser, getCurrentUser, isLoggedIn } = useContext(SessionContext)
-  return { setCurrentUser, getCurrentUser, isLoggedIn }
+  const { setCurrentUser, getCurrentUser, isLoggedIn, resetUser } = useContext(SessionContext)
+  return { setCurrentUser, getCurrentUser, isLoggedIn, resetUser }
 }

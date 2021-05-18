@@ -6,12 +6,11 @@ import logo from './logo.svg'
 import './Header.css'
 
 export default function Header() {
-  const { getCurrentUser, setCurrentUser, isLoggedIn } = useSessionService()
+  const { getCurrentUser, resetUser, isLoggedIn } = useSessionService()
   const router = useHistory()
 
-  // TODO: Exponer un resetUser
   const handleLogout = () => {
-    setCurrentUser({ _id: '' })
+    resetUser()
     router.push('/login')
   }
 
