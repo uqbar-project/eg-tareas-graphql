@@ -16,10 +16,9 @@ export default function Perfil(props: any) {
         const result = await UserService.getFullUserProfile(props.match.params.idUsuario)
         setFetchedUser(result)
       } catch (error) {
-        // FIXME: Manejar bien errores de apollo
+        // TODO: Se puede mejorar este manejo de errores?
         // https://i.giphy.com/media/vyTnNTrs3wqQ0UIvwE/giphy.webp
-        // Imagino que debe haber una library para esto
-        if (error.graphQLErrors && error.graphQLErrors[0].extensions?.code !== "BAD_USER_INPUT") {
+        if (error.graphQLErrors.some((gqlError: any) => gqlError.extensions?.code !== "BAD_USER_INPUT")) {
           showErrorNotification(error.message, NOTIFICATION_TYPE.error)
         }
       }
