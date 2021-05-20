@@ -29,6 +29,7 @@ describe('API Integration - Suite', () => {
           name: "Usuario 1",
           email: "usuario1@gmail.com",
           password: "usuario1",
+          picture: "https://i.imgur.com/OtVw3rL.png",
           tasks: [
             dbTask2
           ]

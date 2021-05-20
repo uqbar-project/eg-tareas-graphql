@@ -31,6 +31,7 @@ describe('API Integration - Update User - Suite', () => {
         name: "Usuario 1",
         email: "usuario1@gmail.com",
         password: "usuario1",
+        picture: "https://i.imgur.com/OtVw3rL.png",
         tasks: [
           dbTask2
         ]
@@ -46,46 +47,25 @@ describe('API Integration - Update User - Suite', () => {
           name: "Usuario 1",
           email: "usuario1@gmail.com",
           password: "usuario1",
+          picture: "https://i.imgur.com/OtVw3rL.png",
           tasks: [
             dbTask2
           ]
         })
       })
       it('it gets updated successfully', async () => {
-
         const result = await request(app).post('/graphql').send({
           query: `mutation {
-              updateUser(updateUserInput: {_id: "${idUser1.toHexString()}", name: "prueba", email: "prueba@gmail.com"}) {
+              updateUser(updateUserInput: {
+                _id: "${idUser1.toHexString()}",
+                name: "prueba",
+                email: "prueba@gmail.com"
+                picture: "https://i.imgur.com/mrk3BVJ.jpg",
+              }) {
                   _id
                   name
                   email
-                }
-              }`
-        })
-
-        expect(result.status).toBe(200)
-        expect(responseAsJSON(result).data.updateUser._id).toBeTruthy()
-        expect(responseAsJSON(result)).toMatchObject({
-          data: {
-            updateUser: {
-              name: "prueba",
-              email: "prueba@gmail.com"
-            }
-          }
-        })
-        expect(await mongoTestFindUserByName('prueba')).toMatchObject({
-          name: 'prueba',
-          email: 'prueba@gmail.com'
-        })
-      })
-      it("you can't retrieve the password", async () => {
-        const result = await request(app).post('/graphql').send({
-          query: `mutation {
-            updateUser(updateUserInput: {_id: "${idUser1.toHexString()}", name: "prueba", email: "prueba@gmail.com"}) {
-                  _id
-                  name
-                  email
-                  password
+                  picture
                 }
               }`
         })
@@ -97,23 +77,66 @@ describe('API Integration - Update User - Suite', () => {
             updateUser: {
               name: "prueba",
               email: "prueba@gmail.com",
-              password: null
+              picture: "https://i.imgur.com/mrk3BVJ.jpg"
             }
           }
         })
         expect(await mongoTestFindUserByName('prueba')).toMatchObject({
           name: 'prueba',
-          email: 'prueba@gmail.com'
+          email: 'prueba@gmail.com',
+          picture: "https://i.imgur.com/mrk3BVJ.jpg"
+        })
+      })
+      it("you can't retrieve the password", async () => {
+        const result = await request(app).post('/graphql').send({
+          query: `mutation {
+            updateUser(updateUserInput: {
+              _id: "${idUser1.toHexString()}",
+              name: "prueba",
+              email: "prueba@gmail.com",
+              picture: "https://i.imgur.com/mrk3BVJ.jpg"
+            }) {
+                  _id
+                  name
+                  email
+                  password
+                  picture
+                }
+              }`
+        })
+
+        expect(result.status).toBe(200)
+        expect(responseAsJSON(result).data.updateUser._id).toBeTruthy()
+        expect(responseAsJSON(result)).toMatchObject({
+          data: {
+            updateUser: {
+              name: "prueba",
+              email: "prueba@gmail.com",
+              password: null,
+              picture: "https://i.imgur.com/mrk3BVJ.jpg"
+            }
+          }
+        })
+        expect(await mongoTestFindUserByName('prueba')).toMatchObject({
+          name: 'prueba',
+          email: 'prueba@gmail.com',
+          password: "usuario1",
+          picture: "https://i.imgur.com/mrk3BVJ.jpg"
         })
       })
     })
     it('With missing name, it gets updated successfully', async () => {
       const result = await request(app).post('/graphql').send({
         query: `mutation { 
-          updateUser(updateUserInput: {_id: "${idUser1.toHexString()}", email: "prueba@gmail.com"}) {
+          updateUser(updateUserInput: {
+            _id: "${idUser1.toHexString()}",
+            email: "prueba@gmail.com",
+            picture: "https://i.imgur.com/mrk3BVJ.jpg"
+          }) {
               _id
               name
               email
+              picture
               tasks {
                 _id
                 title
@@ -131,6 +154,7 @@ describe('API Integration - Update User - Suite', () => {
           updateUser: {
             name: "Usuario 1",
             email: "prueba@gmail.com",
+            picture: "https://i.imgur.com/mrk3BVJ.jpg",
             tasks: [
               {
                 _id: idTask2.toHexString(),
@@ -145,6 +169,8 @@ describe('API Integration - Update User - Suite', () => {
       expect(await mongoTestFindUserByName('Usuario 1')).toMatchObject({
         name: 'Usuario 1',
         email: 'prueba@gmail.com',
+        password: "usuario1",
+        picture: "https://i.imgur.com/mrk3BVJ.jpg",
         tasks: [
           {
             _id: idTask2,
@@ -159,10 +185,15 @@ describe('API Integration - Update User - Suite', () => {
     it('With missing email, it gets updated successfully', async () => {
       const result = await request(app).post('/graphql').send({
         query: `mutation {
-          updateUser(updateUserInput: {_id: "${idUser1.toHexString()}", name: "prueba"}) {
+          updateUser(updateUserInput: {
+            _id: "${idUser1.toHexString()}",
+            name: "prueba",
+            picture: "https://i.imgur.com/mrk3BVJ.jpg"
+          }) {
               _id
               name
               email
+              picture
               tasks {
                 _id
                 title
@@ -180,6 +211,7 @@ describe('API Integration - Update User - Suite', () => {
           updateUser: {
             name: "prueba",
             email: "usuario1@gmail.com",
+            picture: "https://i.imgur.com/mrk3BVJ.jpg",
             tasks: [
               {
                 _id: idTask2.toHexString(),
@@ -194,6 +226,8 @@ describe('API Integration - Update User - Suite', () => {
       expect(await mongoTestFindUserByName('prueba')).toMatchObject({
         name: 'prueba',
         email: 'usuario1@gmail.com',
+        password: "usuario1",
+        picture: "https://i.imgur.com/mrk3BVJ.jpg",
         tasks: [
           {
             _id: idTask2,
@@ -212,6 +246,7 @@ describe('API Integration - Update User - Suite', () => {
               _id
               name
               email
+              picture
             }
           }`
       })
@@ -234,6 +269,7 @@ describe('API Integration - Update User - Suite', () => {
               _id
               name
               email
+              picture
             }
           }`
       })
@@ -263,6 +299,7 @@ describe('API Integration - Update User - Suite', () => {
         name: "Usuario 1",
         email: "usuario1@gmail.com",
         password: "usuario1",
+        picture: "https://i.imgur.com/mrk3BVJ.jpg",
         tasks: [
           dbTask2
         ]
@@ -272,10 +309,16 @@ describe('API Integration - Update User - Suite', () => {
     it('And you try to create a new user with valid fields, it exits errored', async () => {
       const result = await request(app).post('/graphql').send({
         query: `mutation {
-          updateUser(updateUserInput: {_id: "${idUser1.toHexString()}", name: "prueba", email: "prueba@gmail.com"}) {
+          updateUser(updateUserInput: {
+            _id: "${idUser1.toHexString()}",
+            name: "prueba",
+            email: "prueba@gmail.com",
+            picture: "https://i.imgur.com/mrk3BVJ.jpg"
+          }) {
               _id
               name
               email
+              picture
             }
           }`
       })

@@ -4,6 +4,7 @@ type User {
     _id: ID!
     name: String!
     email: String!
+    picture: String!
     password: String @isPrivate
     tasks: [Task]
 }
@@ -19,12 +20,14 @@ input CreateUserInput {
     name: String!
     email: String!
     password: String!
+    picture: String!
 }
 
 input UpdateUserInput {
     _id: ID!
     name: String
     email: String
+    picture: String
 }
 
 input UserCredentialsInput{

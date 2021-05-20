@@ -54,6 +54,7 @@ export const dbUser1 = {
   name: "Usuario 1",
   email: "usuario1@gmail.com",
   password: "usuario1",
+  picture: "https://i.imgur.com/OtVw3rL.png",
   tasks: [
     dbTask1,
     dbTask2
@@ -65,6 +66,7 @@ export const responseUser1 = {
   name: "Usuario 1",
   email: "usuario1@gmail.com",
   password: null,
+  picture: "https://i.imgur.com/OtVw3rL.png",
   tasks: [
     responseTask1,
     responseTask2
@@ -76,6 +78,7 @@ export const dbUser2 = {
   name: "Usuario 2",
   email: "usuario2@gmail.com",
   password: "usuario2",
+  picture: "https://i.imgur.com/fZh6qLo.png",
   tasks: [
     dbTask3
   ]
@@ -86,6 +89,7 @@ export const responseUser2 = {
   name: "Usuario 2",
   email: "usuario2@gmail.com",
   password: null,
+  picture: "https://i.imgur.com/fZh6qLo.png",
   tasks: [
     responseTask3
   ]

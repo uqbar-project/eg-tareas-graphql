@@ -35,6 +35,7 @@ describe('API Integration - Suite', () => {
               _id
               name
               password
+              picture
               email
               tasks{
                 _id
@@ -53,7 +54,8 @@ describe('API Integration - Suite', () => {
               {
                 name: "Usuario 1",
                 email: "usuario1@gmail.com",
-                password: null
+                password: null,
+                picture: "https://i.imgur.com/OtVw3rL.png"
               }
             ]
           }
@@ -69,8 +71,9 @@ describe('API Integration - Suite', () => {
             getListOfUsers{
               _id
               name
-              password
               email
+              password
+              picture
               tasks{
                 _id
                 title
@@ -88,12 +91,14 @@ describe('API Integration - Suite', () => {
               {
                 name: "Usuario 1",
                 email: "usuario1@gmail.com",
-                password: null
+                password: null,
+                picture: "https://i.imgur.com/OtVw3rL.png"
               },
               {
                 name: "Usuario 2",
                 email: "usuario2@gmail.com",
-                password: null
+                password: null,
+                picture: "https://i.imgur.com/fZh6qLo.png"
               }
             ]
           }
@@ -105,8 +110,9 @@ describe('API Integration - Suite', () => {
             getListOfUsers{
               _id
               name
-              password
               email
+              password
+              picture
               tasks{
                 _id
                 title

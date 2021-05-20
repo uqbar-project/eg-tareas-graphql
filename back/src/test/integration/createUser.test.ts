@@ -9,7 +9,7 @@ import request from "supertest"
 import app from "../../api/app"
 import * as dbConfig from "services/database/databaseConfig"
 import { responseAsJSON } from "../utils/supertestUtils"
-import { BAD_USER_INPUT, GraphqlInternalServerError, INTERNAL_SERVER_ERROR } from "services/validators/customErrors"
+import { GraphqlInternalServerError, INTERNAL_SERVER_ERROR } from "services/validators/customErrors"
 
 jest.mock("../../services/database/databaseConfig")
 const mockedDatabase = dbConfig as jest.Mocked<typeof dbConfig>
@@ -32,10 +32,16 @@ describe('API Integration - Create User - Suite', () => {
       it('it gets created successfully', async () => {
         const result = await request(app).post('/graphql').send({
           query: `mutation {
-                createUser(createUserInput: {name: "prueba", email: "prueba@gmail.com", password: "admin"}) {
+                createUser(createUserInput: {
+                  name: "prueba",
+                  email: "prueba@gmail.com",
+                  password: "admin",
+                  picture: "https://i.imgur.com/OtVw3rL.png"
+                }) {
                   _id
                   name
                   email
+                  picture
                 }
               }`
         })
@@ -53,17 +59,24 @@ describe('API Integration - Create User - Suite', () => {
         expect(await mongoTestFindUserByName('prueba')).toMatchObject({
           name: 'prueba',
           email: 'prueba@gmail.com',
+          picture: "https://i.imgur.com/OtVw3rL.png",
           password: 'admin'
         })
       })
       it("you can't retrieve the password", async () => {
         const result = await request(app).post('/graphql').send({
           query: `mutation {
-                createUser(createUserInput: {name: "prueba", email: "prueba@gmail.com", password: "admin"}) {
+                createUser(createUserInput: {
+                  name: "prueba",
+                  email: "prueba@gmail.com",
+                  password: "admin",
+                  picture: "https://i.imgur.com/OtVw3rL.png"
+                }) {
                   _id
                   name
                   email
                   password
+                  picture
                 }
               }`
         })
@@ -89,11 +102,16 @@ describe('API Integration - Create User - Suite', () => {
     it('With missing name, it exits errored', async () => {
       const result = await request(app).post('/graphql').send({
         query: `mutation { 
-          createUser(createUserInput: {email: "prueba@gmail.com", password: "admin"}) {
+          createUser(createUserInput: {
+            email: "prueba@gmail.com",
+            password: "admin",
+            picture: "https://i.imgur.com/OtVw3rL.png"
+          }) {
               _id
               name
               email
               password
+              picture
             }
           }`
       })
@@ -113,11 +131,16 @@ describe('API Integration - Create User - Suite', () => {
     it('With missing email, it exits errored', async () => {
       const result = await request(app).post('/graphql').send({
         query: `mutation {
-            createUser(createUserInput: {name: "prueba", password: "admin"}) {
+            createUser(createUserInput: {
+              name: "prueba",
+              password: "admin"
+              picture: "https://i.imgur.com/OtVw3rL.png",
+            }) {
               _id
               name
               email
               password
+              picture
             }
           }`
       })
@@ -136,11 +159,16 @@ describe('API Integration - Create User - Suite', () => {
     it('With missing password, it exits errored', async () => {
       const result = await request(app).post('/graphql').send({
         query: `mutation {
-            createUser(createUserInput: {email: "prueba@gmail.com", name: "prueba"}) {
+            createUser(createUserInput: {
+              email: "prueba@gmail.com",
+              name: "prueba",
+              picture: "https://i.imgur.com/OtVw3rL.png"
+            }) {
               _id
               name
               email
               password
+              picture
             }
           }`
       })
@@ -156,6 +184,34 @@ describe('API Integration - Create User - Suite', () => {
       })
     })
 
+    it('With missing picture, it exits errored', async () => {
+      const result = await request(app).post('/graphql').send({
+        query: `mutation {
+            createUser(createUserInput: {
+              email: "prueba@gmail.com",
+              name: "prueba",
+              password: "admin"
+            }) {
+              _id
+              name
+              email
+              password
+              picture
+            }
+          }`
+      })
+
+      expect(result.status).toBe(400)
+      expect(await mongoTestDBIsEmpty())
+      expect(responseAsJSON(result)).toMatchObject({
+        errors: [
+          {
+            message: "Field \"CreateUserInput.picture\" of required type \"String!\" was not provided.",
+          }
+        ]
+      })
+    })
+
     it('Without filled fields, it exits errored', async () => {
       const result = await request(app).post('/graphql').send({
         query: `mutation {
@@ -164,6 +220,7 @@ describe('API Integration - Create User - Suite', () => {
               name
               email
               password
+              picture
             }
           }`
       })
@@ -180,6 +237,9 @@ describe('API Integration - Create User - Suite', () => {
           },
           {
             message: "Field \"CreateUserInput.password\" of required type \"String!\" was not provided.",
+          },
+          {
+            message: "Field \"CreateUserInput.picture\" of required type \"String!\" was not provided.",
           }
         ]
       })
@@ -193,6 +253,7 @@ describe('API Integration - Create User - Suite', () => {
               name
               email
               password
+              picture
             }
           }`
       })
@@ -221,11 +282,17 @@ describe('API Integration - Create User - Suite', () => {
     it('And you try to create a new user with valid fields, it exits errored', async () => {
       const result = await request(app).post('/graphql').send({
         query: `mutation {
-            createUser(createUserInput: {name: "prueba", email: "prueba@gmail.com", password: "admin"}) {
+            createUser(createUserInput: {
+              name: "prueba",
+              email: "prueba@gmail.com",
+              password: "admin",
+              picture: "https://i.imgur.com/OtVw3rL.png"
+            }) {
               _id
               name
               email
               password
+              picture
             }
           }`
       })

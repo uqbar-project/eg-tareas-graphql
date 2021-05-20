@@ -34,6 +34,7 @@ describe('API Integration - Suite', () => {
               name
               email
               password
+              picture
               tasks{
                 _id
                 title
@@ -62,6 +63,7 @@ describe('API Integration - Suite', () => {
               name
               email
               password
+              picture
               tasks {
                 _id
                 title
@@ -88,6 +90,7 @@ describe('API Integration - Suite', () => {
               name
               email
               password
+              picture
               tasks {
                 _id
                 title
@@ -119,6 +122,7 @@ describe('API Integration - Suite', () => {
               name
               email
               password
+              picture
               tasks {
                 _id
                 title
