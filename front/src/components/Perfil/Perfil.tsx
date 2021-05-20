@@ -7,8 +7,9 @@ import './Perfil.css'
 
 export default function Perfil(props: any) {
   const showErrorNotification = useErrorNotification()
-  const [fetchedUser, setFetchedUser] = useState({ _id: undefined })
+  const [fetchedUser, setFetchedUser] = useState({ _id: undefined, picture: undefined })
   const { getCurrentUser, isLoggedIn } = useSessionService()
+  const anonymousProfilePic = 'https://i.imgur.com/OtVw3rL.png'
 
   useEffect(() => {
     const fetchData = async () => {
@@ -38,6 +39,7 @@ export default function Perfil(props: any) {
   return (
     <div className="container-center">
       <h1 className="Perfil-title">Perfil</h1>
+      <img className="Perfil-picture" src={fetchedUser.picture || anonymousProfilePic} alt="Imagen de perfil" />
       {paramsUserIdIsValid ?
         (paramsUserIdIsCurrentUser() ? <EditarPerfil perfil={fetchedUser} /> : <VerPerfil perfil={fetchedUser} />)
         :

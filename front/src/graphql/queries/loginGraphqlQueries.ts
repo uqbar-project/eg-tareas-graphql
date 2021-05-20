@@ -24,6 +24,7 @@ export const getUserQuery = async (userId: string) => (
         _id
         name
         email
+        picture
       }
     }`
   })
