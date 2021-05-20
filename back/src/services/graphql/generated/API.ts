@@ -22,7 +22,7 @@ export type CreateUserInput = {
   name: Scalars['String'];
   email: Scalars['String'];
   password: Scalars['String'];
-  picture: Scalars['String'];
+  picture?: Maybe<Scalars['String']>;
 };
 
 export type Mutation = {
@@ -117,7 +117,7 @@ export type User = {
   _id: Scalars['ID'];
   name: Scalars['String'];
   email: Scalars['String'];
-  picture: Scalars['String'];
+  picture?: Maybe<Scalars['String']>;
   password?: Maybe<Scalars['String']>;
   tasks?: Maybe<Array<Maybe<Task>>>;
 };

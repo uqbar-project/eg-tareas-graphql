@@ -99,6 +99,40 @@ describe('API Integration - Create User - Suite', () => {
         })
       })
     })
+
+    it('With missing picture, it gets created successfully', async () => {
+      const result = await request(app).post('/graphql').send({
+        query: `mutation {
+            createUser(createUserInput: {
+              email: "prueba@gmail.com",
+              name: "prueba",
+              password: "admin"
+            }) {
+              _id
+              name
+              email
+              password
+              picture
+            }
+          }`
+      })
+
+      expect(result.status).toBe(200)
+      expect(responseAsJSON(result).data.createUser._id).toBeTruthy()
+      expect(responseAsJSON(result)).toMatchObject({
+        data: {
+          createUser: {
+            name: "prueba",
+            email: "prueba@gmail.com"
+          }
+        }
+      })
+      expect(await mongoTestFindUserByName('prueba')).toMatchObject({
+        name: 'prueba',
+        email: 'prueba@gmail.com',
+        password: 'admin'
+      })
+    })
     it('With missing name, it exits errored', async () => {
       const result = await request(app).post('/graphql').send({
         query: `mutation { 
@@ -184,34 +218,6 @@ describe('API Integration - Create User - Suite', () => {
       })
     })
 
-    it('With missing picture, it exits errored', async () => {
-      const result = await request(app).post('/graphql').send({
-        query: `mutation {
-            createUser(createUserInput: {
-              email: "prueba@gmail.com",
-              name: "prueba",
-              password: "admin"
-            }) {
-              _id
-              name
-              email
-              password
-              picture
-            }
-          }`
-      })
-
-      expect(result.status).toBe(400)
-      expect(await mongoTestDBIsEmpty())
-      expect(responseAsJSON(result)).toMatchObject({
-        errors: [
-          {
-            message: "Field \"CreateUserInput.picture\" of required type \"String!\" was not provided.",
-          }
-        ]
-      })
-    })
-
     it('Without filled fields, it exits errored', async () => {
       const result = await request(app).post('/graphql').send({
         query: `mutation {
@@ -237,9 +243,6 @@ describe('API Integration - Create User - Suite', () => {
           },
           {
             message: "Field \"CreateUserInput.password\" of required type \"String!\" was not provided.",
-          },
-          {
-            message: "Field \"CreateUserInput.picture\" of required type \"String!\" was not provided.",
           }
         ]
       })
