@@ -14,8 +14,7 @@ Durante las clases hemos visto mejores practicas y estrategias de diseño para l
 
 Vale la pena mencionar que GraphQL no está atado a ninguna tecnología, simplemente es una capa intermedia entre el punto de entrada del backend y la propia implementación del mismo.
 
-(TODO: Hacer o buscar un diagrama más claro)
-![Diagrama de GraphQL agnostico](images/Diagrama-1.jpg)
+![Diagrama de GraphQL agnostico](images/Diagrama-1.png)
 
 ## Ejemplo
 
@@ -65,3 +64,20 @@ REACT_APP_GRAPHQL_API_URL="http://localhost:8080/graphql"
 ```bash
 yarn run dev
 ```
+
+### Hablemos de endpoints
+En el mundo de las API Rest estamos acostumbrados a lanzar distintos metodos HTTP contra varios endpoints del servidor. En GraphQL desaparece la idea de endpoint, se utilizará un único punto de entrada y solamente se interactuará por metodos POST.
+
+### Schema
+Para poder interactuar con la API lo que haremos será definir un `schema`. El schema en GraphQL es una representación del modelo de datos que es lo que le dotará de la capacidad de realizar consultas más complejas.
+En el schema podemos definir:
+- tipos de datos, que en general van a representar las entidades o clases del modelo.
+- inputs, que van a definir los tipos de entrada para las distintas operaciones que queramos realizar.
+- peticiones, que van a ser los "puntos de entrada" de GraphQL
+
+### Peticiones
+Para interactuar con GraphQL tenemos dos tipos de peticiones: `Queries`, que son peticiones de consulta, y `Mutations`, que son peticiones con un efecto colateral (updates, craetes y deletes por ejemplo).
+Todas las peticiones hacia GraphQL se realizan mediante una request POST y en el body se detallara la query o mutation a realizar junto con los datos de entrada correspondientes.
+
+### Resolvers
+Toda la magia de GraphQL se reduce a los resolvers, en el schema nosotros definimos cuales van a ser las peticiones que se pueden realizar, al levantar el server tenemos que especificar cual es la función que se va a ejecutar para manejar cada peticion, a esa funcion se la denomina resolver.
